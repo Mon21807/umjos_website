@@ -166,16 +166,36 @@
         .mission-card h3 { color: var(--dark); margin-bottom: 25px; font-size: 1.8rem; font-weight: 800; }
         .mission-card p { color: var(--gray); line-height: 1.8; font-size: 1.1rem; font-style: italic; }
 
-        /* LEADERSHIP */
+        /* LEADERSHIP - FIXED FOR NO CROPPING */
         .leadership-section { padding: 100px 0; background: white; position: relative; }
         .leadership-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary)); background-size: 200% 100%; animation: gradient 3s ease infinite; }
         .leadership-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; margin-top: 60px; }
         .leader-card { background: white; border-radius: 25px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); position: relative; text-align: center; }
         .leader-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); z-index: 1; }
         .leader-card:hover { transform: translateY(-20px) scale(1.03); box-shadow: 0 35px 80px rgba(198,40,40,0.25); }
-        .leader-image { width: 100%; height: 350px; overflow: hidden; }
-        .leader-image img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform 0.7s ease; }
-        .leader-card:hover .leader-image img { transform: scale(1.1); }
+
+        /* FIXED - Images fit properly without cropping */
+        .leader-image {
+            width: 100%;
+            height: auto;
+            min-height: 280px;
+            overflow: hidden;
+            background: linear-gradient(135deg, #f5f5f5, #fff);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .leader-image img {
+            width: 100%;
+            height: auto;
+            min-height: 280px;
+            object-fit: contain;
+            object-position: center center;
+            transition: transform 0.7s ease;
+            background: #f5f5f5;
+        }
+        .leader-card:hover .leader-image img { transform: scale(1.05); }
+
         .leader-info { padding: 30px; background: white; }
         .leader-name { color: var(--primary); font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
         .leader-title { color: var(--secondary); font-size: 1rem; font-weight: 600; margin-bottom: 15px; display: inline-block; padding: 5px 15px; background: linear-gradient(135deg, var(--light), #fff); border-radius: 20px; }
@@ -303,7 +323,9 @@
             .timeline-content h3 { font-size: 1.4rem; }
             .timeline-content p { font-size: 1rem; }
 
-            .leader-image { height: 280px; }
+            /* FIXED - Mobile leader images */
+            .leader-image { min-height: 250px; }
+            .leader-image img { min-height: 250px; }
             .leader-name { font-size: 1.3rem; }
 
             /* Footer */
@@ -318,7 +340,8 @@
             .logo-text p { display: none; }
             .logo-text h1 { font-size: 0.95rem; }
             .page-banner h1 { font-size: 1.7rem; }
-            .leader-image { height: 240px; }
+            .leader-image { min-height: 220px; }
+            .leader-image img { min-height: 220px; }
             .timeline-year { font-size: 1rem; padding: 8px 16px; }
         }
     </style>

@@ -224,18 +224,17 @@
         /* ===== MOBILE MENU ===== */
         .mobile-menu {
             display: none;
-            font-size: 1.8rem;
+            font-size: 1.4rem;
             cursor: pointer;
             color: var(--primary);
             background: none;
             border: none;
-            padding: 10px;
+            padding: 8px 10px;
+            margin-left: auto;
             transition: transform 0.3s ease;
+            line-height: 1;
         }
-
-        .mobile-menu:hover {
-            transform: rotate(90deg);
-        }
+        .mobile-menu:hover { transform: rotate(90deg); }
 
         /* ===== PAGE BANNER ===== */
         .page-banner {
@@ -872,62 +871,73 @@
         }
 
         @media (max-width: 768px) {
+            /* Hamburger - styled button top right */
             .mobile-menu {
-                display: block;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 8px;
+                background: var(--light);
+                border: 1.5px solid rgba(198,40,40,0.2);
+                color: var(--primary);
+                font-size: 1.15rem;
+                cursor: pointer;
+                flex-shrink: 0;
+                margin-left: auto;
+                order: 3;
+                transition: background 0.2s ease;
             }
-            
+            .mobile-menu:hover { background: rgba(198,40,40,0.12); transform: none; }
+
+            /* Header tighter */
+            .header-container { padding: 8px 0; min-height: 62px; }
+            .logo-image { height: 38px; }
+            .logo-text h1 { font-size: 1rem; }
+            .logo-text p { font-size: 0.6rem; }
+
+            /* Nav drawer */
             nav ul {
                 position: fixed;
-                top: 70px;
+                top: 62px;
                 left: -100%;
                 width: 100%;
-                height: calc(100vh - 70px);
+                height: calc(100vh - 62px);
                 background: var(--white);
                 flex-direction: column;
                 align-items: center;
-                justify-content: flex-start;
-                padding-top: 50px;
-                transition: left 0.4s ease;
-                gap: 30px;
+                justify-content: center;
+                padding: 0;
+                gap: 6px;
+                transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
                 z-index: 999;
             }
-            
-            nav ul.active {
-                left: 0;
+            nav ul.active { left: 0; }
+
+            nav ul li { width: 78%; display: flex; justify-content: center; }
+            nav ul li a { display: block; width: 100%; text-align: center; padding: 13px 20px; border-radius: 12px; font-size: 0.95rem; color: var(--dark); }
+            nav ul li a:hover, nav ul li a.active { background: var(--light); color: var(--primary); transform: none; }
+            nav ul li a.active::after { display: none; }
+            nav ul li a.btn-primary {
+                background: linear-gradient(135deg, #c62828, #b71c1c) !important;
+                color: white !important;
+                border-radius: 50px !important;
+                margin-top: 6px;
+                box-shadow: 0 4px 15px rgba(198,40,40,0.3);
             }
-            
-            .header-container {
-                padding: 10px 0;
-                min-height: 70px;
-            }
-            
-            .logo-text h1 {
-                font-size: 1.2rem;
-            }
-            
-            .logo-text p {
-                font-size: 0.65rem;
-            }
-            
-            .logo-image {
-                height: 45px;
-            }
-            
+
+            /* Page banner — matches header height */
             .page-banner {
-                padding: 140px 0 80px;
-                margin-top: 70px;
+                margin-top: 62px;
+                padding: 100px 0 70px;
+                background-attachment: scroll;
             }
-            
-            .page-banner h1 {
-                font-size: 2.5rem;
-            }
-            
-            .page-banner p {
-                font-size: 1rem;
-            }
-            
+            .page-banner h1 { font-size: 2rem; }
+            .page-banner p { font-size: 1rem; }
+
             .donation-header h2 {
-                font-size: 2rem;
+                font-size: 1.8rem;
             }
             
             .impact-card, .info-card {
@@ -970,19 +980,19 @@
 
         @media (max-width: 576px) {
             .page-banner {
-                padding: 120px 0 60px;
+                padding: 80px 0 50px;
             }
             
             .page-banner h1 {
-                font-size: 2rem;
-            }
-            
-            .donation-header h2 {
                 font-size: 1.8rem;
             }
             
-            .impact-card h3, .info-card h3 {
+            .donation-header h2 {
                 font-size: 1.5rem;
+            }
+            
+            .impact-card h3, .info-card h3 {
+                font-size: 1.3rem;
             }
         }
     </style>
@@ -1001,9 +1011,7 @@
                     <p>Helping People to Help Themselves</p>
                 </div>
             </a>
-            <button class="mobile-menu">
-                <i class="fas fa-bars"></i>
-            </button>
+            <button class="mobile-menu"><i class="fas fa-bars"></i></button>
             <nav>
                 <ul>
                     <li><a href="index.html">Home</a></li>
@@ -1088,6 +1096,7 @@
                 <h2>Bank Transfer Details</h2>
                 <p>Make a direct transfer to any of our accounts below</p>
             </div>
+            <div class="bank-grid">
                 <div class="bank-card">
                     <div class="bank-icon">
                         <i class="fas fa-university"></i>
@@ -1096,7 +1105,6 @@
                     <div class="bank-details">
                         <p><strong>Account Name:</strong> Urban Ministry Jos</p>
                         <p><strong>Account Number:</strong> 1010382409</p>
-                        <!-- <p><strong>Sort Code:</strong> 057</p> -->
                     </div>
                     <button class="copy-btn" onclick="copyToClipboard('1010382409')">
                         <i class="fas fa-copy"></i> Copy Account Number
@@ -1113,9 +1121,6 @@
                     <a href="mailto:urbanministry@gmail.com" class="btn btn-outline">
                         <i class="fas fa-envelope"></i> Email Us
                     </a>
-                    <!-- <a href="https://wa.me/2348034535263" class="btn btn-outline">
-                        <i class="fab fa-whatsapp"></i> WhatsApp
-                    </a> -->
                 </div>
             </div>
         </div>
