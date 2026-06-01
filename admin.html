@@ -1,0 +1,650 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Panel - Urban Ministry Jos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        :root {
+            --primary: #c62828; --primary-dark: #b71c1c;
+            --secondary: #ff5252; --light: #fff5f5;
+            --dark: #333; --gray: #666; --white: #ffffff;
+            --shadow: 0 10px 30px rgba(198,40,40,0.1);
+            --transition: all 0.4s ease;
+        }
+        body { font-family: 'Segoe UI', sans-serif; background: #f5f5f5; min-height: 100vh; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 20px; }
+
+        /* LOGIN */
+        .login-container {
+            max-width: 420px; margin: 80px auto; background: white;
+            border-radius: 20px; padding: 50px 40px;
+            box-shadow: 0 20px 60px rgba(198,40,40,0.15); text-align: center;
+        }
+        .login-logo {
+            width: 70px; height: 70px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            border-radius: 50%; display: flex; align-items: center; justify-content: center;
+            margin: 0 auto 20px; font-size: 1.8rem; color: white;
+        }
+        .login-container h2 { color: var(--primary); margin-bottom: 8px; font-size: 1.6rem; }
+        .login-container > p { color: var(--gray); margin-bottom: 30px; }
+        .login-container input {
+            width: 100%; padding: 14px 18px; border: 2px solid #e0e0e0;
+            border-radius: 10px; font-size: 15px; margin-bottom: 18px;
+            font-family: inherit; transition: var(--transition);
+        }
+        .login-container input:focus { outline: none; border-color: var(--primary); }
+        .login-container button {
+            width: 100%; padding: 15px;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; border: none; border-radius: 10px;
+            font-size: 16px; font-weight: 700; cursor: pointer; font-family: inherit;
+        }
+        .login-container button:hover { transform: translateY(-2px); }
+        .login-error {
+            background: #f8d7da; color: #721c24; padding: 12px;
+            border-radius: 8px; margin-bottom: 20px; display: none;
+            border-left: 4px solid #dc3545; text-align: left;
+        }
+
+        /* CONNECTION STATUS */
+        .conn-status {
+            padding: 12px 18px; border-radius: 10px; margin-bottom: 20px;
+            font-size: 0.9rem; font-weight: 600;
+            display: flex; align-items: center; gap: 10px;
+        }
+        .conn-ok    { background: #d4edda; color: #155724; border-left: 4px solid #28a745; }
+        .conn-error { background: #f8d7da; color: #721c24; border-left: 4px solid #dc3545; }
+
+        /* TOPBAR */
+        .topbar {
+            position: fixed; top: 0; left: 0; right: 0;
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            padding: 0 20px; height: 60px;
+            display: flex; align-items: center; justify-content: space-between;
+            z-index: 1000; box-shadow: 0 4px 20px rgba(198,40,40,0.3);
+        }
+        .topbar-left { display: flex; align-items: center; gap: 12px; color: white; font-weight: 700; }
+        .topbar-right { display: flex; align-items: center; gap: 10px; }
+        .topbar-btn {
+            padding: 8px 16px; border-radius: 8px; border: none;
+            cursor: pointer; font-weight: 600; font-size: 0.85rem;
+            display: flex; align-items: center; gap: 7px; font-family: inherit;
+        }
+        .btn-view-site { background: rgba(255,255,255,0.15); color: white; }
+        .btn-view-site:hover { background: rgba(255,255,255,0.25); }
+        .btn-logout { background: white; color: var(--primary); }
+        .main-content { padding-top: 80px; }
+
+        /* ADMIN HEADER */
+        .admin-header {
+            background: linear-gradient(135deg, #1a0a0a, #2c1010);
+            border-radius: 16px; padding: 30px 35px; margin-bottom: 20px;
+            color: white; display: flex; align-items: center;
+            justify-content: space-between; flex-wrap: wrap; gap: 20px;
+        }
+        .admin-header-text h1 { font-size: 1.7rem; margin-bottom: 4px; }
+        .admin-header-text p  { opacity: 0.7; font-size: 0.9rem; }
+        .admin-stats-mini { display: flex; gap: 15px; flex-wrap: wrap; }
+        .admin-stat-chip {
+            background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 10px; padding: 10px 18px; text-align: center; min-width: 80px;
+        }
+        .admin-stat-chip .num { font-size: 1.5rem; font-weight: 800; display: block; line-height: 1; }
+        .admin-stat-chip .lbl { font-size: 0.72rem; opacity: 0.7; margin-top: 4px; display: block; text-transform: uppercase; }
+
+        /* MESSAGE BOX */
+        .message-box {
+            padding: 14px 20px; border-radius: 10px; margin-bottom: 20px;
+            display: none; font-weight: 500; border-left: 4px solid; font-size: 0.95rem;
+        }
+        .msg-success { background: #d4edda; color: #155724; border-color: #28a745; }
+        .msg-error   { background: #f8d7da; color: #721c24; border-color: #dc3545; }
+        .msg-info    { background: #fff3cd; color: #856404; border-color: #ffc107; }
+
+        /* FORM */
+        .form-card {
+            background: white; border-radius: 16px;
+            padding: 30px 35px; margin-bottom: 20px; box-shadow: var(--shadow);
+        }
+        .form-card h2 { color: var(--primary); margin-bottom: 22px; font-size: 1.3rem; display: flex; align-items: center; gap: 10px; }
+        .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+        .form-group.full { grid-column: 1 / -1; }
+        label { display: block; font-weight: 600; margin-bottom: 7px; color: var(--dark); font-size: 0.9rem; }
+        input[type="text"], input[type="date"], textarea {
+            width: 100%; padding: 12px 15px; border: 2px solid #e8e8e8;
+            border-radius: 10px; font-size: 14px; font-family: inherit;
+            background: #fafafa; transition: var(--transition);
+        }
+        input:focus, textarea:focus {
+            outline: none; border-color: var(--primary); background: white;
+            box-shadow: 0 0 0 4px rgba(198,40,40,0.06);
+        }
+        textarea { height: 110px; resize: vertical; }
+        .btn {
+            padding: 13px 28px; border: none; border-radius: 10px;
+            font-size: 15px; font-weight: 700; cursor: pointer;
+            display: inline-flex; align-items: center; gap: 8px;
+            font-family: inherit; transition: var(--transition);
+        }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: white; }
+        .btn-primary:hover { transform: translateY(-2px); box-shadow: 0 8px 20px rgba(198,40,40,0.3); }
+        .btn-primary:disabled { opacity: 0.6; cursor: not-allowed; transform: none; box-shadow: none; }
+
+        /* UPLOAD ZONE */
+        .upload-zone {
+            border: 2.5px dashed #ddd; border-radius: 12px; padding: 28px 20px;
+            text-align: center; cursor: pointer; background: #fafafa;
+            position: relative; display: flex; flex-direction: column;
+            align-items: center; justify-content: center; gap: 8px; transition: var(--transition);
+        }
+        .upload-zone:hover, .upload-zone.dragover { border-color: var(--primary); background: var(--light); }
+        .upload-zone input[type="file"] {
+            position: absolute; inset: 0; opacity: 0;
+            cursor: pointer; width: 100%; height: 100%; border: none; padding: 0;
+        }
+        .upload-icon { font-size: 2rem; color: #ccc; transition: var(--transition); pointer-events: none; }
+        .upload-zone:hover .upload-icon, .upload-zone.dragover .upload-icon { color: var(--primary); transform: translateY(-4px); }
+        .upload-zone p { font-size: 0.88rem; color: var(--gray); pointer-events: none; margin: 0; }
+        .upload-zone p strong { color: var(--primary); }
+        .upload-zone small { font-size: 0.76rem; color: #aaa; pointer-events: none; }
+        .img-preview-wrap {
+            display: none; position: relative; border-radius: 12px;
+            overflow: hidden; border: 2px solid #e8e8e8; margin-top: 10px;
+        }
+        .img-preview-wrap img { width: 100%; max-height: 200px; object-fit: cover; display: block; }
+        .remove-img {
+            position: absolute; top: 10px; right: 10px;
+            background: rgba(198,40,40,0.9); color: white; border: none;
+            border-radius: 50%; width: 32px; height: 32px; cursor: pointer;
+            font-size: 14px; display: flex; align-items: center; justify-content: center;
+        }
+        .img-name-tag {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            background: rgba(0,0,0,0.55); color: white; font-size: 0.76rem;
+            padding: 5px 12px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap;
+        }
+
+        /* TABS */
+        .tabs-bar {
+            display: flex; gap: 8px; margin-bottom: 20px;
+            background: white; padding: 8px; border-radius: 12px; box-shadow: var(--shadow);
+        }
+        .tab {
+            flex: 1; padding: 11px 16px; background: transparent; color: var(--gray);
+            border: none; border-radius: 8px; cursor: pointer; font-weight: 600;
+            display: flex; align-items: center; justify-content: center; gap: 8px;
+            font-family: inherit; transition: var(--transition);
+        }
+        .tab.active {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: white; box-shadow: 0 4px 12px rgba(198,40,40,0.25);
+        }
+        .tab-count { background: rgba(0,0,0,0.12); border-radius: 20px; padding: 2px 9px; font-size: 0.78rem; }
+        .tab.active .tab-count { background: rgba(255,255,255,0.25); }
+
+        /* CARDS */
+        .activities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(300px,1fr)); gap: 20px; }
+        .activity-card {
+            background: white; border-radius: 14px; overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.07);
+            position: relative; transition: var(--transition);
+        }
+        .activity-card:hover { transform: translateY(-5px); box-shadow: 0 15px 35px rgba(0,0,0,0.12); }
+        .activity-card img { width: 100%; height: 180px; object-fit: cover; display: block; }
+        .activity-content { padding: 16px; }
+        .activity-content h3 { color: var(--primary); margin-bottom: 6px; font-size: 1rem; line-height: 1.4; }
+        .activity-content .meta { display: flex; align-items: center; gap: 6px; color: var(--gray); font-size: 0.8rem; margin-bottom: 8px; }
+        .activity-content p {
+            color: var(--gray); line-height: 1.55; font-size: 0.86rem;
+            display: -webkit-box; -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3; line-clamp: 3; overflow: hidden;
+        }
+        .card-actions { position: absolute; top: 10px; right: 10px; display: flex; gap: 7px; }
+        .action-btn {
+            width: 34px; height: 34px; border-radius: 50%; border: none; cursor: pointer;
+            background: rgba(255,255,255,0.92); display: flex; align-items: center; justify-content: center;
+            font-size: 14px; transition: var(--transition); box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+        }
+        .action-btn:hover { transform: scale(1.1); }
+        .archive-btn { color: #ff9800; } .archive-btn:hover { background: #ff9800; color: white; }
+        .restore-btn { color: #4caf50; } .restore-btn:hover { background: #4caf50; color: white; }
+        .delete-btn  { color: var(--primary); } .delete-btn:hover { background: var(--primary); color: white; }
+        .empty-state {
+            text-align: center; padding: 50px 30px; background: white;
+            border-radius: 14px; color: var(--gray); grid-column: 1 / -1;
+        }
+        .empty-state i { font-size: 2.8rem; margin-bottom: 12px; display: block; opacity: 0.25; }
+        .archive-date-tag {
+            display: inline-flex; align-items: center; gap: 5px;
+            background: #fff3e0; color: #e65100; padding: 3px 10px;
+            border-radius: 6px; font-size: 0.76rem; font-weight: 600; margin-top: 5px;
+        }
+
+        /* SPINNER */
+        .loading-wrap { text-align: center; padding: 50px; grid-column: 1/-1; }
+        .spinner {
+            width: 40px; height: 40px; border: 4px solid rgba(198,40,40,0.15);
+            border-top-color: var(--primary); border-radius: 50%;
+            animation: spin 0.8s linear infinite; margin: 0 auto 15px;
+        }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* DEBUG */
+        .debug-panel {
+            background: #1e1e1e; color: #00ff88; border-radius: 10px;
+            padding: 15px 18px; font-family: monospace; font-size: 0.8rem;
+            margin-bottom: 20px; display: none; max-height: 200px; overflow-y: auto; line-height: 1.8;
+        }
+        .debug-toggle {
+            background: none; border: 1px solid #ccc; border-radius: 6px;
+            padding: 6px 14px; font-size: 0.8rem; cursor: pointer;
+            color: var(--gray); margin-bottom: 10px;
+        }
+
+        @media (max-width: 768px) {
+            .container { padding: 10px; }
+            .form-grid { grid-template-columns: 1fr; }
+            .form-card { padding: 20px; }
+            .activities-grid { grid-template-columns: 1fr; }
+            .tabs-bar { flex-direction: column; }
+            .admin-header { padding: 20px; }
+            .topbar-left span { display: none; }
+        }
+    </style>
+</head>
+<body>
+<div id="app"></div>
+
+<script>
+const ADMIN_PASSWORD = "admin123";
+const API_URL        = "admin_api.php";
+
+let isLoggedIn         = sessionStorage.getItem('admin_logged_in') === 'true';
+let activeActivities   = [];
+let archivedActivities = [];
+let currentTab         = 'active';
+let selectedImageFile  = null;
+let debugLog           = [];
+let connChecked        = false;
+let connHtml           = '';
+
+// ── DEBUG ──────────────────────────────────────────
+function log(msg, data) {
+    const entry = '[' + new Date().toLocaleTimeString() + '] ' + msg +
+                  (data !== undefined ? ': ' + JSON.stringify(data) : '');
+    debugLog.push(entry);
+    console.log(entry);
+    const box = document.getElementById('debugBox');
+    if (box) { box.innerHTML = debugLog.slice(-30).join('<br>'); box.scrollTop = box.scrollHeight; }
+}
+
+// ── API ────────────────────────────────────────────
+async function apiFetch(url, options) {
+    const res  = await fetch(url, options);
+    const text = await res.text();
+    log('Response', text.substring(0, 300));
+    try {
+        return JSON.parse(text);
+    } catch(e) {
+        log('JSON parse FAILED — raw: ' + text.substring(0, 400));
+        return { success: false, message: 'Server error. Open Debug Log for details. Make sure you are on http://localhost not file://' };
+    }
+}
+
+async function fetchActivities(status) {
+    log('Fetching ' + status);
+    try {
+        const r = await apiFetch(API_URL + '?status=' + status + '&t=' + Date.now());
+        return r.success ? (r.data || []) : [];
+    } catch(e) { log('fetchActivities error', e.message); return []; }
+}
+
+async function saveActivity(title, date, description, imageFile) {
+    log('Saving: ' + title);
+    const fd = new FormData();
+    fd.append('title', title);
+    fd.append('date', date);
+    fd.append('description', description);
+    if (imageFile) { fd.append('image', imageFile); log('Image: ' + imageFile.name); }
+    try {
+        return await apiFetch(API_URL, { method: 'POST', body: fd });
+    } catch(e) { return { success: false, message: 'Network error: ' + e.message }; }
+}
+
+async function updateActivity(action, id) {
+    log(action + ' id=' + id);
+    try {
+        return await apiFetch(API_URL, {
+            method: 'PUT',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ action, id })
+        });
+    } catch(e) { return { success: false, message: e.message }; }
+}
+
+async function testConnection() {
+    try {
+        const r = await apiFetch(API_URL + '?status=active&t=' + Date.now());
+        if (r.success !== undefined) {
+            log('Connection OK');
+            return { ok: true, msg: '✅ Connected to database successfully!' };
+        }
+        return { ok: false, msg: '❌ Unexpected response from server. Check debug log.' };
+    } catch(e) {
+        return { ok: false, msg: '❌ Cannot reach admin_api.php — Open this page via http://localhost/yourfolder/admin.html (not file://)' };
+    }
+}
+
+async function loadData() {
+    if (!isLoggedIn) return;
+    activeActivities   = await fetchActivities('active');
+    archivedActivities = await fetchActivities('archived');
+    renderAdmin();
+}
+
+// ── ACTIONS ────────────────────────────────────────
+async function addNewActivity() {
+    const title       = document.getElementById('title').value.trim();
+    const date        = document.getElementById('date').value;
+    const description = document.getElementById('description').value.trim();
+    const btn         = document.getElementById('submitBtn');
+
+    if (!title || !date || !description) {
+        showMessage('Please fill in Title, Date and Description!', 'error'); return;
+    }
+
+    btn.disabled  = true;
+    btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Saving...';
+    showMessage('Saving to database...', 'info');
+
+    const result = await saveActivity(title, date, description, selectedImageFile);
+
+    btn.disabled  = false;
+    btn.innerHTML = '<i class="fas fa-paper-plane"></i> Save to Database';
+
+    if (result.success) {
+        document.getElementById('title').value       = '';
+        document.getElementById('date').value        = '';
+        document.getElementById('description').value = '';
+        resetImageUploader();
+        showMessage('Activity saved! It is now live on your website.', 'success');
+        await loadData();
+    } else {
+        showMessage(result.message || 'Save failed. Open Debug Log for details.', 'error');
+    }
+}
+
+async function archiveActivity(id) {
+    const r = await updateActivity('archive', id);
+    if (r.success) { await loadData(); showMessage('Activity archived', 'success'); }
+    else showMessage(r.message, 'error');
+}
+
+async function restoreActivity(id) {
+    const r = await updateActivity('restore', id);
+    if (r.success) { await loadData(); showMessage('Activity restored and live!', 'success'); }
+    else showMessage(r.message, 'error');
+}
+
+async function deleteActivity(id) {
+    if (!confirm('Permanently delete this activity? Cannot be undone!')) return;
+    const r = await updateActivity('delete', id);
+    if (r.success) { await loadData(); showMessage('Activity deleted permanently', 'success'); }
+    else showMessage(r.message, 'error');
+}
+
+function showMessage(msg, type) {
+    const box = document.getElementById('messageBox');
+    if (!box) return;
+    box.textContent   = msg;
+    box.className     = 'message-box msg-' + (type || 'success');
+    box.style.display = 'block';
+    clearTimeout(box._t);
+    if (type !== 'info') box._t = setTimeout(() => { box.style.display = 'none'; }, 5000);
+}
+
+function escapeHtml(t) {
+    if (!t) return '';
+    return String(t).replace(/[&<>"']/g, m =>
+        ({ '&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;' }[m]));
+}
+
+function getImageUrl(p) {
+    if (!p) return 'https://via.placeholder.com/400x200?text=No+Image';
+    return p;
+}
+
+// ── AUTH ───────────────────────────────────────────
+function login() {
+    const pwd = document.getElementById('passwordInput').value;
+    if (pwd === ADMIN_PASSWORD) {
+        sessionStorage.setItem('admin_logged_in', 'true');
+        isLoggedIn = true;
+        renderAdmin().then(() => loadData());
+    } else {
+        const err = document.getElementById('loginError');
+        err.style.display = 'block';
+        document.getElementById('passwordInput').value = '';
+        setTimeout(() => { err.style.display = 'none'; }, 3000);
+    }
+}
+
+function logout() {
+    if (confirm('Log out of the admin panel?')) {
+        sessionStorage.removeItem('admin_logged_in');
+        isLoggedIn = false; connChecked = false;
+        renderLogin();
+    }
+}
+
+function switchTab(tab) { currentTab = tab; renderAdmin(); }
+function toggleDebug() {
+    const b = document.getElementById('debugBox');
+    if (b) b.style.display = b.style.display === 'none' ? 'block' : 'none';
+}
+
+// ── IMAGE UPLOADER ─────────────────────────────────
+function resetImageUploader() {
+    selectedImageFile = null;
+    const zone  = document.getElementById('uploadZone');
+    const prev  = document.getElementById('imgPreviewWrap');
+    const finp  = document.getElementById('imageFileInput');
+    if (zone) zone.style.display = 'flex';
+    if (prev) { prev.style.display = 'none'; const img = prev.querySelector('img'); if(img) img.src=''; }
+    if (finp) finp.value = '';
+}
+
+function handleImageFile(file) {
+    if (!file) return;
+    if (!file.type.startsWith('image/')) { showMessage('Please select an image file', 'error'); return; }
+    if (file.size > 5*1024*1024)         { showMessage('Image too large. Max 5MB.', 'error'); return; }
+    selectedImageFile = file;
+    const reader = new FileReader();
+    reader.onload = e => {
+        const zone = document.getElementById('uploadZone');
+        const prev = document.getElementById('imgPreviewWrap');
+        if (zone) zone.style.display = 'none';
+        if (prev) {
+            prev.style.display = 'block';
+            const img = prev.querySelector('img'); if(img) img.src = e.target.result;
+            const tag = prev.querySelector('.img-name-tag');
+            if(tag) tag.textContent = file.name + '  (' + (file.size/1024).toFixed(0) + ' KB)';
+        }
+    };
+    reader.readAsDataURL(file);
+}
+
+function wireUploader() {
+    const fi   = document.getElementById('imageFileInput');
+    const zone = document.getElementById('uploadZone');
+    if (!fi || !zone) return;
+    fi.addEventListener('change', function() { if(this.files && this.files[0]) handleImageFile(this.files[0]); });
+    zone.addEventListener('dragover',  e => { e.preventDefault(); zone.classList.add('dragover'); });
+    zone.addEventListener('dragleave', () => zone.classList.remove('dragover'));
+    zone.addEventListener('drop', e => {
+        e.preventDefault(); zone.classList.remove('dragover');
+        if (e.dataTransfer.files[0]) handleImageFile(e.dataTransfer.files[0]);
+    });
+}
+
+// ── RENDER ─────────────────────────────────────────
+function renderLogin() {
+    document.getElementById('app').innerHTML = `
+    <div class="login-container">
+        <div class="login-logo"><i class="fas fa-shield-alt"></i></div>
+        <h2>Admin Login</h2>
+        <p>Urban Ministry Jos — Staff Portal</p>
+        <div class="login-error" id="loginError">
+            <i class="fas fa-times-circle"></i> Incorrect password. Please try again.
+        </div>
+        <input type="password" id="passwordInput" placeholder="Enter your password"
+               onkeypress="if(event.key==='Enter') login()">
+        <button onclick="login()"><i class="fas fa-sign-in-alt"></i> Login to Admin Panel</button>
+    </div>`;
+}
+
+function buildCards(list, isArchive) {
+    if (!list || list.length === 0) {
+        return `<div class="empty-state">
+            <i class="fas fa-${isArchive ? 'archive' : 'inbox'}"></i>
+            <p>${isArchive ? 'No archived activities.' : 'No activities yet. Add one above!'}</p>
+        </div>`;
+    }
+    return list.map(a => `
+        <div class="activity-card">
+            <img src="${getImageUrl(a.image_path)}" alt="${escapeHtml(a.title)}"
+                 onerror="this.src='https://via.placeholder.com/400x200?text=No+Image'">
+            <div class="activity-content">
+                <h3>${escapeHtml(a.title)}</h3>
+                <div class="meta"><i class="fas fa-calendar-alt"></i> ${escapeHtml(a.activity_date)}</div>
+                ${a.archived_date ? `<div class="archive-date-tag"><i class="fas fa-archive"></i> Archived: ${escapeHtml(a.archived_date)}</div>` : ''}
+                <p style="margin-top:6px">${escapeHtml(a.description)}</p>
+            </div>
+            <div class="card-actions">
+                ${isArchive ? `
+                    <button class="action-btn restore-btn" onclick="restoreActivity(${a.id})" title="Restore">
+                        <i class="fas fa-undo-alt"></i></button>
+                    <button class="action-btn delete-btn" onclick="deleteActivity(${a.id})" title="Delete">
+                        <i class="fas fa-trash-alt"></i></button>
+                ` : `
+                    <button class="action-btn archive-btn" onclick="archiveActivity(${a.id})" title="Archive">
+                        <i class="fas fa-archive"></i></button>
+                `}
+            </div>
+        </div>`).join('');
+}
+
+async function renderAdmin() {
+    // Check connection once
+    if (!connChecked) {
+        connChecked = true;
+        const conn = await testConnection();
+        connHtml = `<div class="conn-status ${conn.ok ? 'conn-ok' : 'conn-error'}">
+            <i class="fas fa-${conn.ok ? 'check-circle' : 'exclamation-circle'}"></i>
+            <span>${conn.msg}</span>
+        </div>`;
+    }
+
+    document.getElementById('app').innerHTML = `
+    <div class="topbar">
+        <div class="topbar-left"><i class="fas fa-user-shield"></i><span>Urban Ministry Admin Panel</span></div>
+        <div class="topbar-right">
+            <button class="topbar-btn btn-view-site" onclick="window.open('index.html','_blank')">
+                <i class="fas fa-external-link-alt"></i> View Website</button>
+            <button class="topbar-btn btn-logout" onclick="logout()">
+                <i class="fas fa-sign-out-alt"></i> Logout</button>
+        </div>
+    </div>
+
+    <div class="container main-content">
+        <div class="admin-header">
+            <div class="admin-header-text">
+                <h1><i class="fas fa-database" style="margin-right:10px;"></i>Dashboard</h1>
+                <p>Activities saved to MySQL database &amp; uploads/ folder</p>
+            </div>
+            <div class="admin-stats-mini">
+                <div class="admin-stat-chip"><span class="num">${activeActivities.length}</span><span class="lbl">Live</span></div>
+                <div class="admin-stat-chip"><span class="num">${archivedActivities.length}</span><span class="lbl">Archived</span></div>
+                <div class="admin-stat-chip"><span class="num">${activeActivities.length + archivedActivities.length}</span><span class="lbl">Total</span></div>
+            </div>
+        </div>
+
+        ${connHtml}
+
+        <div id="messageBox" class="message-box" style="display:none;"></div>
+
+        <button class="debug-toggle" onclick="toggleDebug()">
+            <i class="fas fa-bug"></i> Debug Log (click if something is not working)
+        </button>
+        <div class="debug-panel" id="debugBox" style="display:none;">${debugLog.join('<br>') || 'No logs yet...'}</div>
+
+        <div class="form-card">
+            <h2><i class="fas fa-plus-circle"></i> Post New Activity</h2>
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Title *</label>
+                    <input type="text" id="title" placeholder="e.g., Food Distribution in Jos North">
+                </div>
+                <div class="form-group">
+                    <label>Date *</label>
+                    <input type="date" id="date">
+                </div>
+                <div class="form-group full">
+                    <label>Description *</label>
+                    <textarea id="description" placeholder="Describe what happened, who was involved, the impact..."></textarea>
+                </div>
+                <div class="form-group full">
+                    <label>Photo <span style="font-weight:400;color:var(--gray)">(optional)</span></label>
+                    <div class="upload-zone" id="uploadZone">
+                        <input type="file" id="imageFileInput" accept="image/*">
+                        <div class="upload-icon"><i class="fas fa-cloud-upload-alt"></i></div>
+                        <p><strong>Click to upload</strong> or drag &amp; drop your photo here</p>
+                        <small>JPG, PNG, GIF, WebP — max 5MB</small>
+                    </div>
+                    <div class="img-preview-wrap" id="imgPreviewWrap">
+                        <img src="" alt="Preview">
+                        <button class="remove-img" type="button" onclick="resetImageUploader()">
+                            <i class="fas fa-times"></i></button>
+                        <div class="img-name-tag"></div>
+                    </div>
+                </div>
+            </div>
+            <button class="btn btn-primary" id="submitBtn" onclick="addNewActivity()">
+                <i class="fas fa-paper-plane"></i> Save to Database
+            </button>
+        </div>
+
+        <div class="tabs-bar">
+            <button class="tab ${currentTab==='active'?'active':''}" onclick="switchTab('active')">
+                <i class="fas fa-globe"></i> Live on Website <span class="tab-count">${activeActivities.length}</span>
+            </button>
+            <button class="tab ${currentTab==='archive'?'active':''}" onclick="switchTab('archive')">
+                <i class="fas fa-archive"></i> Archive <span class="tab-count">${archivedActivities.length}</span>
+            </button>
+        </div>
+
+        <div style="display:${currentTab==='active'?'block':'none'}">
+            <div class="activities-grid">${buildCards(activeActivities, false)}</div>
+        </div>
+        <div style="display:${currentTab==='archive'?'block':'none'}">
+            <div class="activities-grid">${buildCards(archivedActivities, true)}</div>
+        </div>
+        <div style="height:60px;"></div>
+    </div>`;
+
+    wireUploader();
+}
+
+// ── INIT ───────────────────────────────────────────
+if (isLoggedIn) {
+    renderAdmin().then(() => loadData());
+} else {
+    renderLogin();
+}
+</script>
+</body>
+</html>

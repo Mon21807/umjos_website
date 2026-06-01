@@ -1,0 +1,1006 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Urban Ministry Jos - Transforming Communities Since 1990</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #c62828;
+            --primary-dark: #b71c1c;
+            --secondary: #ff5252;
+            --light: #fff5f5;
+            --dark: #333;
+            --gray: #666;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(198, 40, 40, 0.1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+        /* HEADER */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 20px rgba(198,40,40,0.1);
+            position: fixed; width: 100%; top: 0; left: 0;
+            z-index: 1000; transition: var(--transition);
+        }
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            min-height: 80px;
+            gap: 10px;
+        }
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit; transition: transform 0.3s ease; flex-shrink: 0; }
+        .logo:hover { transform: scale(1.02); }
+        .logo-image { height: 60px; width: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(198,40,40,0.2); transition: all 0.3s ease; }
+        .logo-image:hover { transform: rotate(5deg) scale(1.1); }
+        .logo-text h1 { font-size: 1.5rem; color: var(--primary); margin: 0; line-height: 1.2; font-weight: 800; letter-spacing: 0.5px; }
+        .logo-text p { font-size: 0.75rem; color: var(--gray); margin: 3px 0 0 0; font-style: italic; font-weight: 500; }
+        nav ul { display: flex; list-style: none; gap: 25px; align-items: center; margin: 0; padding: 0; }
+        nav ul li a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.95rem; padding: 8px 0; position: relative; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.5px; }
+        nav ul li a:hover { color: var(--primary); transform: translateY(-2px); }
+        nav ul li a.active { color: var(--primary); font-weight: 700; }
+        nav ul li a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+
+        /* BUTTONS */
+        .btn { display: inline-block; padding: 14px 35px; border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.4s ease; cursor: pointer; border: none; font-size: 1rem; text-align: center; font-family: inherit; letter-spacing: 1px; position: relative; overflow: hidden; text-transform: uppercase; }
+        .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transform: translate(-50%,-50%); transition: width 0.6s, height 0.6s; }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn-donate { background: linear-gradient(135deg, #c62828, #b71c1c); color: white; box-shadow: 0 8px 25px rgba(198,40,40,0.3); border: 2px solid transparent; }
+        .btn-donate:hover { background: linear-gradient(135deg, #b71c1c, #8e0000); transform: translateY(-3px) scale(1.05); box-shadow: 0 15px 35px rgba(198,40,40,0.4); }
+        .btn-support { background: linear-gradient(135deg, #c62828, #b71c1c); color: white; box-shadow: 0 8px 25px rgba(198,40,40,0.3); border: 2px solid transparent; }
+        .btn-support:hover { background: linear-gradient(135deg, #b71c1c, #8e0000); transform: translateY(-3px) scale(1.05); }
+        .btn-program { background: transparent; color: #c62828; border: 2px solid #c62828; }
+        .btn-program:hover { background: linear-gradient(135deg, #c62828, #b71c1c); color: white; transform: translateY(-3px) scale(1.05); }
+        .btn-mission { background: transparent; color: white; border: 2px solid white; }
+        .btn-mission:hover { background: white; color: #c62828; transform: translateY(-3px) scale(1.05); }
+        .btn-secondary { background: linear-gradient(135deg, #ff5252, #ff6b6b); color: white; box-shadow: 0 8px 25px rgba(255,82,82,0.3); }
+        .btn-secondary:hover { transform: translateY(-3px) scale(1.05); }
+
+        /* MOBILE MENU */
+        .mobile-menu {
+            display: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--primary);
+            background: none;
+            border: none;
+            padding: 8px 10px;
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+        .mobile-menu:hover { transform: rotate(90deg); }
+
+        /* HERO */
+        .hero {
+            background: linear-gradient(135deg, rgba(198,40,40,0.92) 0%, rgba(183,28,28,0.92) 100%),
+                url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: var(--white); padding: 200px 0 150px; text-align: center;
+            margin-top: 80px; position: relative; overflow: hidden;
+        }
+        .hero::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: url('data:image/svg+xml,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2000 2000"><circle cx="100" cy="100" r="2" fill="white" opacity="0.3"/><circle cx="300" cy="400" r="3" fill="white" opacity="0.2"/><circle cx="500" cy="200" r="2" fill="white" opacity="0.4"/><circle cx="700" cy="600" r="4" fill="white" opacity="0.2"/><circle cx="900" cy="300" r="2" fill="white" opacity="0.3"/><circle cx="1100" cy="500" r="3" fill="white" opacity="0.2"/><circle cx="1300" cy="200" r="2" fill="white" opacity="0.4"/><circle cx="1500" cy="700" r="3" fill="white" opacity="0.2"/><circle cx="1700" cy="400" r="2" fill="white" opacity="0.3"/><circle cx="1900" cy="300" r="4" fill="white" opacity="0.2"/></svg>'); background-repeat: repeat; animation: floatParticles 20s linear infinite; pointer-events: none; }
+        @keyframes floatParticles { 0%{transform:translateY(0) translateX(0)} 100%{transform:translateY(-200px) translateX(50px)} }
+        .hero h1 { font-size: 4rem; margin-bottom: 20px; font-weight: 800; animation: fadeInDown 1s ease; position: relative; text-shadow: 3px 3px 10px rgba(0,0,0,0.3); }
+        .hero p { font-size: 1.4rem; max-width: 800px; margin: 0 auto 30px; opacity: 0; animation: fadeInUp 1s ease 0.2s forwards; position: relative; }
+        .hero-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; opacity: 0; animation: fadeInUp 1s ease 0.4s forwards; position: relative; }
+        @keyframes fadeInDown { from{opacity:0;transform:translateY(-50px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:translateY(0)} }
+        .hero-float-1 { position: absolute; top: 10%; left: 5%; font-size: 3rem; color: rgba(255,255,255,0.1); animation: float1 8s ease-in-out infinite; }
+        .hero-float-2 { position: absolute; bottom: 15%; right: 8%; font-size: 4rem; color: rgba(255,255,255,0.1); animation: float2 10s ease-in-out infinite; }
+        .hero-float-3 { position: absolute; top: 30%; right: 15%; font-size: 2.5rem; color: rgba(255,255,255,0.08); animation: float3 7s ease-in-out infinite; }
+        @keyframes float1 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-30px) rotate(10deg)} }
+        @keyframes float2 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-40px) rotate(-10deg)} }
+        @keyframes float3 { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-25px) rotate(5deg)} }
+
+        /* SECTION TITLE */
+        .section-title { text-align: center; margin-bottom: 60px; }
+        .section-title h2 { font-size: 2.5rem; color: var(--primary); margin-bottom: 15px; font-weight: 800; position: relative; display: inline-block; }
+        .section-title h2::after { content: ''; position: absolute; bottom: -10px; left: 50%; transform: translateX(-50%); width: 80px; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+        .section-title p { color: var(--gray); font-size: 1.2rem; max-width: 700px; margin: 20px auto 0; }
+
+        /* STATS */
+        .stats-section { padding: 80px 0; background: linear-gradient(135deg, var(--light), #fff); }
+        .stats-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 40px; margin-top: 40px; }
+        .stat-item { text-align: center; padding: 30px; background: var(--white); border-radius: 15px; box-shadow: var(--shadow); transition: var(--transition); }
+        .stat-item:hover { transform: translateY(-10px); box-shadow: 0 20px 40px rgba(198,40,40,0.15); }
+        .stat-icon { font-size: 3rem; color: var(--primary); margin-bottom: 15px; }
+        .stat-number { font-size: 2.5rem; font-weight: 800; color: var(--primary); margin-bottom: 10px; }
+        .stat-text { color: var(--gray); font-weight: 600; }
+
+        /* ABOUT */
+        .about-section { padding: 80px 0; }
+        .about-content { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .about-text h3 { color: var(--primary); margin: 20px 0 10px; font-size: 1.5rem; }
+        .about-text p { color: var(--gray); line-height: 1.8; margin-bottom: 15px; }
+        .about-image img { width: 100%; border-radius: 20px; box-shadow: var(--shadow); transition: var(--transition); }
+        .about-image img:hover { transform: scale(1.02); }
+
+        /* PROGRAMS */
+        .programs-section { padding: 80px 0; background: linear-gradient(135deg, var(--light), #fff); }
+        .programs-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; }
+        .program-card { background: var(--white); border-radius: 20px; padding: 40px 30px; text-align: center; box-shadow: var(--shadow); transition: var(--transition); position: relative; }
+        .program-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 20px 20px 0 0; }
+        .program-card:hover { transform: translateY(-10px); box-shadow: 0 25px 50px rgba(198,40,40,0.2); }
+        .program-icon { font-size: 3rem; color: var(--primary); margin-bottom: 20px; }
+        .program-card h3 { color: var(--primary-dark); margin-bottom: 15px; font-size: 1.4rem; }
+        .program-card p { color: var(--gray); margin-bottom: 20px; line-height: 1.7; }
+        .program-stats { margin-bottom: 20px; }
+        .program-stat { display: inline-block; background: var(--light); padding: 8px 20px; border-radius: 30px; color: var(--primary); font-weight: 700; font-size: 0.9rem; }
+
+        /* ===== ACTIVITIES SECTION — OPTION A GLASSMORPHISM ===== */
+        .activities-section { padding: 80px 0; background: #0a0a0a; position: relative; overflow: hidden; }
+
+        /* Animated background blobs */
+        .activities-section::before {
+            content: '';
+            position: absolute; top: -100px; left: -100px;
+            width: 400px; height: 400px;
+            background: radial-gradient(circle, rgba(198,40,40,0.15) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: blobMove1 12s ease-in-out infinite;
+            pointer-events: none;
+        }
+        .activities-section::after {
+            content: '';
+            position: absolute; bottom: -100px; right: -100px;
+            width: 500px; height: 500px;
+            background: radial-gradient(circle, rgba(255,82,82,0.1) 0%, transparent 70%);
+            border-radius: 50%;
+            animation: blobMove2 15s ease-in-out infinite;
+            pointer-events: none;
+        }
+        @keyframes blobMove1 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(80px,60px) scale(1.2)} }
+        @keyframes blobMove2 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-60px,-40px) scale(1.15)} }
+
+        /* Override section title for dark background */
+        .activities-section .section-title h2 { color: #fff; }
+        .activities-section .section-title p { color: rgba(255,255,255,0.6); }
+        .activities-section .section-title h2::after { background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+
+        /* Live bar on dark bg */
+        .activities-live-bar { display: flex; align-items: center; gap: 10px; justify-content: flex-end; margin-bottom: 35px; font-size: 0.85rem; color: rgba(255,255,255,0.5); }
+        .live-dot { width: 8px; height: 8px; background: #4caf50; border-radius: 50%; animation: pulse-dot 1.5s infinite; }
+        @keyframes pulse-dot { 0%,100%{transform:scale(1);opacity:1} 50%{transform:scale(1.4);opacity:0.6} }
+
+        /* Grid */
+        .activities-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 28px; position: relative; z-index: 1; }
+
+        /* ── GLASSMORPHISM CARD ── */
+        .activity-card {
+            position: relative;
+            border-radius: 22px;
+            overflow: hidden;
+            cursor: pointer;
+            box-shadow: 0 8px 32px rgba(0,0,0,0.4);
+            border: 1px solid rgba(255,255,255,0.08);
+            transform: translateY(0) scale(1);
+            transition: transform 0.45s cubic-bezier(0.175,0.885,0.32,1.275),
+                        box-shadow 0.45s ease;
+        }
+
+        .activity-card:hover {
+            transform: translateY(-14px) scale(1.02);
+            box-shadow: 0 30px 60px rgba(198,40,40,0.35), 0 0 0 1px rgba(198,40,40,0.3);
+        }
+
+        /* Full image fills card */
+        .activity-img-wrap {
+            position: relative;
+            height: 320px;
+            overflow: hidden;
+        }
+
+        .activity-img-wrap img {
+            width: 100%; height: 100%;
+            object-fit: cover;
+            object-position: center top;
+            transition: transform 0.7s cubic-bezier(0.4, 0, 0.2, 1);
+            display: block;
+        }
+
+        .activity-card:hover .activity-img-wrap img {
+            transform: scale(1.12);
+        }
+
+        /* Dark gradient overlay — bottom heavy */
+        .activity-img-wrap::after {
+            content: '';
+            position: absolute; inset: 0;
+            background: linear-gradient(
+                to top,
+                rgba(0,0,0,0.92) 0%,
+                rgba(0,0,0,0.55) 40%,
+                rgba(0,0,0,0.15) 70%,
+                transparent 100%
+            );
+            transition: opacity 0.4s ease;
+        }
+
+        .activity-card:hover .activity-img-wrap::after {
+            opacity: 0.85;
+        }
+
+        /* NEW badge */
+        .activity-new-badge {
+            position: absolute;
+            top: 16px; right: 16px;
+            background: linear-gradient(135deg, #c62828, #ff5252);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.72rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 1.5px;
+            z-index: 3;
+            box-shadow: 0 4px 15px rgba(198,40,40,0.5);
+            animation: pulse-badge 2s infinite;
+        }
+        @keyframes pulse-badge { 0%,100%{transform:scale(1)} 50%{transform:scale(1.08)} }
+
+        /* Date badge — top left */
+        .activity-date-badge {
+            position: absolute;
+            top: 16px; left: 16px;
+            background: rgba(255,255,255,0.15);
+            backdrop-filter: blur(10px);
+            -webkit-backdrop-filter: blur(10px);
+            color: white;
+            padding: 5px 14px;
+            border-radius: 20px;
+            font-size: 0.78rem;
+            font-weight: 600;
+            border: 1px solid rgba(255,255,255,0.2);
+            z-index: 3;
+        }
+
+        /* Content sits at bottom of image */
+        .activity-body {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            padding: 24px 22px;
+            z-index: 2;
+            transform: translateY(0);
+            transition: transform 0.4s ease;
+        }
+
+        .activity-body h3 {
+            color: #ffffff;
+            font-size: 1.15rem;
+            font-weight: 700;
+            margin-bottom: 8px;
+            line-height: 1.35;
+            text-shadow: 0 2px 8px rgba(0,0,0,0.5);
+        }
+
+        /* Red accent line under title */
+        .activity-body h3::after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 2px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+            margin-top: 6px;
+            transition: width 0.4s ease;
+        }
+
+        .activity-card:hover .activity-body h3::after {
+            width: 60px;
+        }
+
+        /* Description — hidden by default, slides up on hover */
+        .activity-body p {
+            color: rgba(255,255,255,0.85);
+            font-size: 0.9rem;
+            line-height: 1.6;
+            margin: 0;
+            max-height: 0;
+            overflow: hidden;
+            opacity: 0;
+            transition: max-height 0.45s ease, opacity 0.4s ease 0.05s;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 3;
+            line-clamp: 3;
+        }
+
+        .activity-card:hover .activity-body p {
+            max-height: 80px;
+            opacity: 1;
+        }
+
+        /* Shimmer effect on card border on hover */
+.activity-card::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    border-radius: 22px;
+    border: 1px solid rgba(198, 40, 40, 0);
+    opacity: 0;
+    transition: opacity 0.4s ease, border-color 0.4s ease;
+    z-index: 4;
+    pointer-events: none;
+}
+
+.activity-card:hover::before {
+    opacity: 1;
+    border-color: rgba(198, 40, 40, 0.6);
+    box-shadow: 0 0 20px rgba(198, 40, 40, 0.3),
+                inset 0 0 20px rgba(198, 40, 40, 0.05);
+}
+
+        .activity-card:hover::before { opacity: 1; }
+
+        /* Empty / loading states */
+        .activities-empty {
+            text-align: center; padding: 60px 30px;
+            color: rgba(255,255,255,0.4);
+            background: rgba(255,255,255,0.04);
+            border: 1px solid rgba(255,255,255,0.08);
+            border-radius: 20px;
+            grid-column: 1 / -1;
+        }
+        .activities-empty i { font-size: 3.5rem; color: rgba(198,40,40,0.3); margin-bottom: 15px; display: block; }
+        .activities-empty p { font-size: 1.1rem; }
+
+        .activities-loading { text-align: center; padding: 60px; grid-column: 1 / -1; color: rgba(255,255,255,0.4); }
+        .spinner { width: 45px; height: 45px; border: 4px solid rgba(198,40,40,0.2); border-top-color: var(--primary); border-radius: 50%; animation: spin 0.8s linear infinite; margin: 0 auto 15px; }
+        @keyframes spin { to { transform: rotate(360deg); } }
+
+        /* View more button on dark bg */
+        .activities-section .btn-program {
+            background: transparent;
+            color: white;
+            border: 2px solid rgba(255,255,255,0.4);
+        }
+        .activities-section .btn-program:hover {
+            background: var(--primary);
+            border-color: var(--primary);
+            color: white;
+        }
+
+        /* TESTIMONIAL */
+        .testimonial-section { padding: 80px 0; }
+        .testimonial { max-width: 800px; margin: 0 auto; text-align: center; padding: 50px; background: var(--light); border-radius: 20px; position: relative; }
+        .testimonial i { font-size: 3rem; color: var(--secondary); opacity: 0.5; margin-bottom: 20px; }
+        .testimonial p { font-size: 1.2rem; font-style: italic; color: var(--dark); line-height: 1.8; margin-bottom: 20px; }
+        .testimonial-author { font-weight: 700; color: var(--primary); font-size: 1.1rem; }
+        .testimonial-role { color: var(--gray); font-size: 0.9rem; }
+
+        /* CTA */
+        .cta-section { padding: 80px 0; background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); text-align: center; }
+        .cta-content h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .cta-content p { max-width: 700px; margin: 0 auto 30px; font-size: 1.2rem; opacity: 0.95; }
+        .cta-buttons { display: flex; justify-content: center; gap: 20px; flex-wrap: wrap; }
+
+        /* FOOTER */
+        footer { background: linear-gradient(135deg, #1a0f0a, #2c1810); color: var(--white); padding: 80px 0 40px; }
+        .footer-content { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
+        .footer-column h3 { font-size: 1.3rem; margin-bottom: 25px; position: relative; padding-bottom: 10px; }
+        .footer-column h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background: var(--secondary); }
+        .footer-column p { color: rgba(255,255,255,0.85); margin-bottom: 15px; line-height: 1.8; font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .footer-column p i { color: var(--secondary); margin-top: 3px; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column ul li a { color: rgba(255,255,255,0.85); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
+        .footer-column ul li a:hover { color: var(--secondary); padding-left: 5px; }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-links a { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); transition: var(--transition); }
+        .social-links a:hover { background: var(--secondary); transform: translateY(-5px); }
+        .copyright { text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+        .footer-motto { font-style: italic; margin-top: 10px; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+
+        /* UTILITY */
+        .text-center { text-align: center; }
+        .mt-60 { margin-top: 60px; }
+
+        /* RESPONSIVE */
+        /* ===== TABLET ===== */
+        @media (max-width: 992px) {
+            .hero h1 { font-size: 2.8rem; }
+            .about-content { grid-template-columns: 1fr; }
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+
+            /* --- Hamburger --- */
+            .mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px;
+                height: 40px;
+                border-radius: 8px;
+                background: var(--light);
+                border: 1.5px solid rgba(198,40,40,0.2);
+                color: var(--primary);
+                font-size: 1.15rem;
+                cursor: pointer;
+                flex-shrink: 0;
+                margin-left: auto;
+                order: 3;
+                transition: background 0.2s ease;
+            }
+            .mobile-menu:hover { background: rgba(198,40,40,0.12); transform: none; }
+
+            /* --- Header tighter --- */
+            .header-container {
+                padding: 8px 0;
+                min-height: 64px;
+            }
+
+            /* --- Logo smaller --- */
+            .logo-image { height: 40px; }
+            .logo-text h1 { font-size: 1.1rem; }
+            .logo-text p { font-size: 0.62rem; }
+
+            /* --- Full-screen nav drawer --- */
+            nav ul {
+                position: fixed;
+                top: 64px; left: -100%;
+                width: 100%; height: calc(100vh - 64px);
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 0;
+                transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
+                gap: 8px;
+                z-index: 999;
+                box-shadow: 4px 0 30px rgba(0,0,0,0.08);
+            }
+
+            nav ul.active { left: 0; }
+
+            nav ul li { width: 80%; }
+
+            nav ul li a {
+                display: block;
+                text-align: center;
+                padding: 14px 20px;
+                border-radius: 12px;
+                font-size: 1rem;
+                transition: background 0.2s ease, color 0.2s ease;
+            }
+
+            nav ul li a:hover,
+            nav ul li a.active {
+                background: var(--light);
+                color: var(--primary);
+            }
+
+            nav ul li a.active::after { display: none; }
+
+            /* Donate button in nav */
+            nav ul li a.btn-donate {
+                background: linear-gradient(135deg, #c62828, #b71c1c) !important;
+                color: white !important;
+                border-radius: 50px !important;
+                padding: 14px 20px !important;
+                margin-top: 0;
+                text-align: center;
+            }
+
+            /* Make all nav items centered including donate */
+            nav ul li {
+                width: 78%;
+                display: flex;
+                justify-content: center;
+            }
+
+            nav ul li a {
+                width: 100%;
+                text-align: center;
+            }
+
+            /* --- Hero --- */
+            .hero {
+                padding: 110px 0 70px;
+                margin-top: 64px;
+                background-attachment: scroll;
+            }
+            .hero h1 { font-size: 1.8rem; line-height: 1.3; }
+            .hero p { font-size: 0.95rem; }
+            .hero-buttons { flex-direction: column; align-items: center; gap: 12px; }
+            .hero-buttons .btn { width: 100%; max-width: 260px; padding: 12px 20px; }
+
+            /* --- Section titles --- */
+            .section-title h2 { font-size: 1.8rem; }
+            .section-title p { font-size: 1rem; }
+
+            /* --- Stats --- */
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 15px; }
+            .stat-number { font-size: 2rem; }
+
+            /* --- Programs --- */
+            .programs-grid { grid-template-columns: 1fr; }
+
+            /* --- Activities --- */
+            .activities-grid { grid-template-columns: 1fr; gap: 20px; }
+            .activity-img-wrap { height: 260px; }
+            .activity-body p { max-height: 80px; opacity: 1; }
+            .activity-body h3::after { width: 50px; }
+
+            /* --- Footer --- */
+            .footer-content { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+            .footer-column h3::after { left: 50%; transform: translateX(-50%); }
+            .footer-column p { justify-content: center; }
+            .footer-column ul li a { justify-content: center; }
+            .social-links { justify-content: center; }
+
+            /* --- CTA --- */
+            .cta-buttons { flex-direction: column; align-items: center; }
+            .cta-buttons .btn { width: 100%; max-width: 280px; }
+        }
+
+        /* ===== SMALL MOBILE ===== */
+        @media (max-width: 480px) {
+            .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 12px; }
+            .stat-item { padding: 20px 15px; }
+            .stat-number { font-size: 1.7rem; }
+            .testimonial { padding: 25px 20px; }
+            .testimonial p { font-size: 0.95rem; }
+            .cta-content h2 { font-size: 1.6rem; }
+            .hero h1 { font-size: 1.6rem; }
+            .activity-img-wrap { height: 240px; }
+            .logo-text h1 { font-size: 1rem; }
+            .logo-text p { display: none; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="Logo's/Urban Ministry.jpeg" alt="Urban Ministry Logo" class="logo-image" onerror="this.style.display='none';">
+                <div class="logo-text">
+                    <h1>Urban Ministry Jos</h1>
+                    <p>Helping People to Help Themselves</p>
+                </div>
+            </a>
+            <button class="mobile-menu"><i class="fas fa-bars"></i></button>
+            <nav>
+                <ul>
+                    <li><a href="index.html" class="active">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="impact.html">Impact</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="donate.html" class="btn btn-donate" style="padding: 10px 25px;">Donate Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Hero -->
+    <section class="hero">
+        <div class="hero-float-1"><i class="fas fa-hands-helping"></i></div>
+        <div class="hero-float-2"><i class="fas fa-heart"></i></div>
+        <div class="hero-float-3"><i class="fas fa-seedling"></i></div>
+        <div class="container">
+            <h1>Transforming Lives, Building Communities</h1>
+            <p>From Crisis to Wholeness: Restoring Dignity, Healing Trauma, and Building Urban/Rural Livelihoods in Plateau State since 1990</p>
+            <div class="hero-buttons">
+                <a href="about.html" class="btn btn-mission">Our Mission</a>
+                <a href="donate.html" class="btn btn-support">Support Us</a>
+                <a href="programs.html" class="btn btn-program">Our Programs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats -->
+    <section class="stats-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Impact in Numbers</h2>
+                <p>Three decades of dedicated service to communities in Plateau State</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-item"><div class="stat-icon"><i class="fas fa-users"></i></div><div class="stat-number">7,843+</div><div class="stat-text">Total Beneficiaries</div></div>
+                <div class="stat-item"><div class="stat-icon"><i class="fas fa-handshake"></i></div><div class="stat-number">100+</div><div class="stat-text">Cooperative Groups</div></div>
+                <div class="stat-item"><div class="stat-icon"><i class="fas fa-map-marker-alt"></i></div><div class="stat-number">5</div><div class="stat-text">Local Government Areas</div></div>
+                <div class="stat-item"><div class="stat-icon"><i class="fas fa-calendar-alt"></i></div><div class="stat-number">30+</div><div class="stat-text">Years of Service</div></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- About -->
+    <section class="about-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>About Urban Ministry Jos</h2>
+                <p>A Christian NGO dedicated to holistic community transformation since 1990</p>
+            </div>
+            <div class="about-content">
+                <div class="about-text">
+                    <h3>Our Mission</h3>
+                    <p>"Guided by faith and compassion, our mission is to deliver holistic transformation in crisis-affected urban/rural communities by providing integrated programs in Livelihood, Food Security, Education Empowerment, Health and Wellness, Trauma Healing, and Peace Building, empowering residents toward self-sufficiency and renewed dignity."</p>
+                    <h3>Our Vision</h3>
+                    <p>"To see urban and rural communities transformed into resilient, thriving, and peaceful neighborhoods where every resident achieves physical, emotional, and economic wholeness, free from the burdens of hunger, trauma, and chronic poverty."</p>
+                    <a href="about.html" class="btn btn-secondary mt-60">Learn More About Us</a>
+                </div>
+                <div class="about-image">
+                    <img src="images/UM index about.jpeg" alt="Community Development" onerror="this.src='https://via.placeholder.com/500x400?text=About+Us'">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Programs -->
+    <section class="programs-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Core Programs</h2>
+                <p>Integrated interventions for sustainable community development</p>
+            </div>
+            <div class="programs-grid">
+                <div class="program-card">
+                    <div class="program-icon"><i class="fas fa-hand-holding-usd"></i></div>
+                    <h3>Livelihood & Economic Empowerment</h3>
+                    <p>Vocational training, Income Generating Activities (IGAs), and Village Savings & Loans Associations (VSLAs) for financial stability and self-sufficiency.</p>
+                    <div class="program-stats"><span class="program-stat">1,900+ Beneficiaries</span></div>
+                    <a href="programs.html#livelihood" class="btn btn-program" style="padding:10px 25px;font-size:0.9rem;">Learn More</a>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon"><i class="fas fa-seedling"></i></div>
+                    <h3>Food Security & Nutrition</h3>
+                    <p>Urban gardening, nutrition education, emergency food aid, and sustainable agricultural practices for household food security.</p>
+                    <div class="program-stats"><span class="program-stat">1,875 Households Reached</span></div>
+                    <a href="programs.html#food" class="btn btn-program" style="padding:10px 25px;font-size:0.9rem;">Learn More</a>
+                </div>
+                <div class="program-card">
+                    <div class="program-icon"><i class="fas fa-heart"></i></div>
+                    <h3>Trauma Healing & Peace Building</h3>
+                    <p>Psycho-social support, counseling, community dialogue, and reconciliation programs for healing and social cohesion.</p>
+                    <div class="program-stats"><span class="program-stat">1,875 Individuals Supported</span></div>
+                    <a href="programs.html#trauma" class="btn btn-program" style="padding:10px 25px;font-size:0.9rem;">Learn More</a>
+                </div>
+            </div>
+            <div class="text-center mt-60">
+                <a href="programs.html" class="btn btn-support">View All Programs</a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ===== ACTIVITIES SECTION ===== -->
+    <section class="activities-section" id="activities">
+        <div class="container">
+            <div class="section-title">
+                <h2>Latest Activities & News</h2>
+                <p>Stay updated with what Urban Ministry Jos is doing in the community</p>
+            </div>
+            <div class="activities-live-bar">
+                <span class="live-dot"></span>
+                <span id="lastUpdatedText">Loading updates...</span>
+            </div>
+            <div class="activities-grid" id="activitiesGrid">
+                <div class="activities-loading">
+                    <div class="spinner"></div>
+                    <p>Loading latest activities...</p>
+                </div>
+            </div>
+            <div class="text-center mt-60" id="viewMoreWrap" style="display:none;">
+                <a href="#activities" class="btn btn-program" id="viewMoreBtn">
+                    <i class="fas fa-th-large"></i> Show All Activities
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonial -->
+    <section class="testimonial-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Success Stories</h2>
+                <p>Real lives transformed through our programs</p>
+            </div>
+            <div class="testimonial">
+                <i class="fas fa-quote-left"></i>
+                <p>"Through Urban Ministry's VSLA program, I saved enough to start my tailoring business. Today, I employ three other women and can send all my children to school. Urban Ministry didn't just give me aid - they gave me dignity and the tools to build my own future."</p>
+                <div class="testimonial-author">Amina Yusuf</div>
+                <div class="testimonial-role">VSLA Beneficiary, Jos North</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <div class="cta-content">
+                <h2>Join Us in Making a Difference</h2>
+                <p>Your support helps transform lives in Plateau State. Whether through donations, volunteering, or partnership, you can be part of the change.</p>
+                <div class="cta-buttons">
+                    <a href="donate.html" class="btn btn-donate"><i class="fas fa-donate"></i> Donate Now</a>
+                    <a href="contact.html" class="btn btn-mission"><i class="fas fa-envelope"></i> Contact Us</a>
+                    <a href="volunteer.html" class="btn btn-donate"><i class="fas fa-hands-helping"></i> Volunteer</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Urban Ministry Jos</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Katon Rikkos, Along Lamingo Road, Behind Langfield Motel, Jos North LGA, Plateau State, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> +2348034535263 / +2348039130385</p>
+                    <p><i class="fas fa-envelope"></i> urbanministry@gmail.com</p>
+                    <p><i class="fas fa-clock"></i> Mon - Fri: 8:00 AM - 5:00 PM</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Our Programs</a></li>
+                        <li><a href="impact.html">Our Impact</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Get Involved</h3>
+                    <ul>
+                        <li><a href="volunteer.html">Volunteer</a></li>
+                        <li><a href="partners.html">Partnership</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal & Registration</h3>
+                    <p>Registered with Corporate Affairs Commission</p>
+                    <p><strong>RC Number:</strong> 11136</p>
+                    <p><strong>Since:</strong> 28th May 1998</p>
+                    <p>Non-Profit Organization</p>
+                    <p>Christian NGO</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Urban Ministry Jos. All Rights Reserved. | <em>Helping People to Help Themselves</em></p>
+                <p class="footer-motto">From Crisis to Wholeness: Restoring Dignity, Healing Trauma, and Building Livelihoods</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // MOBILE MENU
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navMenu = document.querySelector('nav ul');
+        mobileMenu.addEventListener('click', function () {
+            navMenu.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', function () {
+                navMenu.classList.remove('active');
+                const icon = mobileMenu.querySelector('i');
+                if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
+            });
+        });
+
+        // HEADER SCROLL
+        window.addEventListener('scroll', function () {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 30px rgba(198,40,40,0.15)';
+                header.style.background = 'rgba(255,255,255,0.98)';
+            } else {
+                header.style.boxShadow = '0 2px 20px rgba(198,40,40,0.1)';
+                header.style.background = 'white';
+            }
+        });
+
+        // SMOOTH SCROLL
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if (targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if (targetElement) window.scrollTo({ top: targetElement.offsetTop - 80, behavior: 'smooth' });
+            });
+        });
+
+        // SCROLL ANIMATIONS
+        const animateElements = document.querySelectorAll('.stat-item, .program-card, .about-content, .testimonial');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.2 });
+        animateElements.forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(30px)';
+            el.style.transition = 'all 0.8s ease';
+            observer.observe(el);
+        });
+
+        // CARD ENTRANCE ANIMATION via IntersectionObserver
+        function observeCards() {
+            const cards = document.querySelectorAll('.activity-card');
+            const cardObserver = new IntersectionObserver((entries) => {
+                entries.forEach((entry, i) => {
+                    if (entry.isIntersecting) {
+                        setTimeout(() => {
+                            entry.target.style.opacity = '1';
+                            entry.target.style.transform = 'translateY(0) scale(1)';
+                        }, entry.target.dataset.delay || 0);
+                        cardObserver.unobserve(entry.target);
+                    }
+                });
+            }, { threshold: 0.1 });
+            cards.forEach((card, i) => {
+                card.style.opacity = '0';
+                card.style.transform = 'translateY(50px) scale(0.95)';
+                card.style.transition = 'opacity 0.7s ease, transform 0.7s cubic-bezier(0.175,0.885,0.32,1.275)';
+                card.dataset.delay = i * 100;
+                cardObserver.observe(card);
+            });
+        }
+
+        // ACTIVITIES
+        const PREVIEW_COUNT = 6;
+        let showingAll = false;
+        let allActivities = [];
+
+        function escapeHtml(text) {
+            if (!text) return '';
+            return text.replace(/[&<>"']/g, m => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[m]));
+        }
+
+        function formatDate(dateStr) {
+            if (!dateStr) return '';
+            try {
+                const d = new Date(dateStr + 'T00:00:00');
+                return d.toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+            } catch(e) { return dateStr; }
+        }
+
+        function renderActivityCard(activity, index) {
+            const isNew    = index === 0;
+            const newBadge = isNew ? '<span class="activity-new-badge"><i class="fas fa-star" style="margin-right:4px;font-size:0.65rem;"></i>New</span>' : '';
+            const imgSrc   = activity.image_path || activity.image || '';
+            const dateStr  = activity.activity_date || activity.date || '';
+            const fullImg  = imgSrc || 'https://via.placeholder.com/400x320?text=Urban+Ministry+Jos';
+
+            return `
+                <div class="activity-card">
+                    ${newBadge}
+                    <div class="activity-img-wrap">
+                        <img src="${escapeHtml(fullImg)}"
+                             alt="${escapeHtml(activity.title)}"
+                             onerror="this.src='https://via.placeholder.com/400x320?text=Urban+Ministry+Jos'">
+                    </div>
+                    <span class="activity-date-badge">
+                        <i class="fas fa-calendar-alt" style="margin-right:5px;"></i>${formatDate(dateStr)}
+                    </span>
+                    <div class="activity-body">
+                        <h3>${escapeHtml(activity.title)}</h3>
+                        <p>${escapeHtml(activity.description)}</p>
+                    </div>
+                </div>`;
+        }
+
+        function renderActivities(activities) {
+            const grid = document.getElementById('activitiesGrid');
+            const viewMoreWrap = document.getElementById('viewMoreWrap');
+            const viewMoreBtn  = document.getElementById('viewMoreBtn');
+
+            if (!activities || activities.length === 0) {
+                grid.innerHTML = `
+                    <div class="activities-empty">
+                        <i class="fas fa-calendar-times"></i>
+                        <p>No activities posted yet. Check back soon!</p>
+                    </div>`;
+                viewMoreWrap.style.display = 'none';
+                return;
+            }
+
+            const toShow = showingAll ? activities : activities.slice(0, PREVIEW_COUNT);
+            grid.innerHTML = toShow.map((a, i) => renderActivityCard(a, i)).join('');
+            observeCards();
+
+            if (activities.length > PREVIEW_COUNT && !showingAll) {
+                viewMoreWrap.style.display = 'block';
+                viewMoreBtn.innerHTML = `<i class="fas fa-th-large"></i> Show All ${activities.length} Activities`;
+            } else {
+                viewMoreWrap.style.display = 'none';
+            }
+        }
+
+        async function loadActivities() {
+            try {
+                const res  = await fetch('admin_api.php?status=active&t=' + Date.now());
+                const text = await res.text();
+                let result;
+                try { result = JSON.parse(text); }
+                catch(e) {
+                    const raw = localStorage.getItem('um_active_activities');
+                    allActivities = raw ? JSON.parse(raw) : [];
+                    document.getElementById('lastUpdatedText').textContent = 'Recently updated';
+                    renderActivities(allActivities);
+                    return;
+                }
+                if (result.success) {
+                    allActivities = result.data || [];
+                    document.getElementById('lastUpdatedText').textContent =
+                        allActivities.length
+                            ? 'Live — ' + allActivities.length + ' activit' + (allActivities.length === 1 ? 'y' : 'ies')
+                            : 'No activities yet';
+                    renderActivities(allActivities);
+                } else {
+                    throw new Error(result.message || 'API error');
+                }
+            } catch(e) {
+                document.getElementById('activitiesGrid').innerHTML = `
+                    <div class="activities-empty">
+                        <i class="fas fa-exclamation-circle"></i>
+                        <p>Could not load activities. Please refresh the page.</p>
+                    </div>`;
+                document.getElementById('lastUpdatedText').textContent = 'Could not connect';
+            }
+        }
+
+        document.getElementById('viewMoreBtn').addEventListener('click', function(e) {
+            e.preventDefault();
+            showingAll = !showingAll;
+            renderActivities(allActivities);
+            if (!showingAll) document.getElementById('activities').scrollIntoView({ behavior: 'smooth', block: 'start' });
+        });
+
+        loadActivities();
+        setInterval(loadActivities, 60000);
+        document.addEventListener('visibilitychange', function() { if (!document.hidden) loadActivities(); });
+
+        document.addEventListener('keydown', function(event) {   
+  // Ctrl + Shift + U
+  if (
+    (event.ctrlKey || event.metaKey) &&
+    event.shiftKey &&
+    event.key.toLowerCase() === 'u'
+  ) {      
+    event.preventDefault(); 
+    
+    sessionStorage.setItem('allow_admin_access', 'true');
+    window.location.href = 'admin.html';
+  }
+});
+    </script>
+</body>
+</html>

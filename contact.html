@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Contact Us - Urban Ministry Jos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #c62828;
+            --primary-dark: #b71c1c;
+            --secondary: #ff5252;
+            --light: #fff5f5;
+            --dark: #333;
+            --gray: #666;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(198,40,40,0.1);
+            --transition: all 0.4s cubic-bezier(0.4,0,0.2,1);
+        }
+
+        body { font-family: 'Segoe UI', sans-serif; line-height: 1.6; color: var(--dark); background: var(--white); overflow-x: hidden; }
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+        /* SCROLL PROGRESS */
+        .scroll-progress { position: fixed; top: 0; left: 0; width: 0%; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); z-index: 1001; transition: width 0.2s ease; }
+
+        /* HEADER */
+        header { background: var(--white); box-shadow: 0 2px 20px rgba(198,40,40,0.1); position: fixed; width: 100%; top: 0; left: 0; z-index: 1000; transition: var(--transition); }
+
+        .header-container { display: flex; justify-content: space-between; align-items: center; padding: 15px 0; min-height: 80px; gap: 10px; }
+
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit; transition: transform 0.3s ease; flex-shrink: 0; }
+        .logo:hover { transform: scale(1.02); }
+        .logo-image { height: 60px; width: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(198,40,40,0.2); transition: all 0.3s ease; }
+        .logo-image:hover { transform: rotate(5deg) scale(1.1); }
+        .logo-text h1 { font-size: 1.5rem; color: var(--primary); margin: 0; line-height: 1.2; font-weight: 800; letter-spacing: 0.5px; }
+        .logo-text p { font-size: 0.75rem; color: var(--gray); margin: 3px 0 0 0; font-style: italic; }
+
+        nav ul { display: flex; list-style: none; gap: 25px; align-items: center; margin: 0; padding: 0; }
+        nav ul li a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.95rem; padding: 8px 0; position: relative; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.5px; }
+        nav ul li a:hover { color: var(--primary); transform: translateY(-2px); }
+        nav ul li a.active { color: var(--primary); font-weight: 700; }
+        nav ul li a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+
+        /* BUTTONS */
+        .btn { display: inline-block; padding: 12px 28px; border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.4s ease; cursor: pointer; border: none; font-size: 0.9rem; text-align: center; font-family: inherit; letter-spacing: 1px; position: relative; overflow: hidden; text-transform: uppercase; }
+        .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transform: translate(-50%,-50%); transition: width 0.6s, height 0.6s; }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); box-shadow: 0 8px 25px rgba(198,40,40,0.3); border: 2px solid transparent; }
+        .btn-primary:hover { background: linear-gradient(135deg, var(--primary-dark), #8e0000); transform: translateY(-3px) scale(1.05); }
+
+        /* MOBILE MENU */
+        .mobile-menu {
+            display: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--primary);
+            background: none;
+            border: none;
+            padding: 8px 10px;
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+        .mobile-menu:hover { transform: rotate(90deg); }
+
+        /* PAGE BANNER */
+        .page-banner {
+            background: linear-gradient(135deg, rgba(198,40,40,0.95) 0%, rgba(183,28,28,0.95) 100%),
+                url('https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: var(--white); padding: 180px 0 120px; text-align: center;
+            margin-top: 80px; position: relative; overflow: hidden;
+        }
+        .page-banner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%); animation: shimmer 3s infinite linear; }
+        .page-banner h1 { font-size: 4rem; margin-bottom: 20px; text-shadow: 3px 3px 10px rgba(0,0,0,0.3); position: relative; font-weight: 800; line-height: 1.2; animation: fadeIn 1.2s ease forwards 0.3s; }
+        .page-banner p { font-size: 1.4rem; max-width: 800px; margin: 0 auto; opacity: 0.95; position: relative; animation: fadeIn 1.2s ease forwards 0.6s; line-height: 1.6; }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-15px)} }
+        @keyframes shimmer { 0%{background-position:-1000px 0} 100%{background-position:1000px 0} }
+        @keyframes gradient { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        @keyframes pulse { 0%,100%{transform:scale(1);box-shadow:0 5px 15px rgba(198,40,40,0.2)} 50%{transform:scale(1.05);box-shadow:0 10px 25px rgba(198,40,40,0.3)} }
+        @keyframes spin { to{transform:rotate(360deg)} }
+        @keyframes bounce { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+
+        /* SECTION TITLE */
+        .section-title { text-align: center; margin-bottom: 60px; animation: fadeInUp 0.8s ease; }
+        .section-title h2 { font-size: 2.8rem; color: var(--primary); margin: 0 auto 20px; font-weight: 800; letter-spacing: 1px; position: relative; display: inline-block; }
+        .section-title h2::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+        .section-title p { color: var(--gray); font-size: 1.2rem; max-width: 700px; margin: 30px auto 0; line-height: 1.8; }
+
+        /* CONTACT SECTION */
+        .contact-section { padding: 100px 0; background: linear-gradient(135deg, var(--light), #fff); }
+
+        .contact-header { text-align: center; margin: 0 auto 60px; max-width: 800px; }
+        .contact-header h2 { font-size: 3rem; color: var(--primary); margin: 0 auto 20px; font-weight: 800; letter-spacing: 1px; position: relative; display: inline-block; }
+        .contact-header h2::after { content: ''; position: absolute; bottom: -15px; left: 50%; transform: translateX(-50%); width: 100px; height: 4px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+        .contact-header p { color: var(--gray); font-size: 1.3rem; max-width: 700px; margin: 30px auto 0; line-height: 1.8; }
+
+        .contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; margin-top: 60px; }
+
+        /* INFO CARDS */
+        .info-card { background: var(--white); border-radius: 20px; padding: 40px; box-shadow: var(--shadow); margin-bottom: 30px; transition: var(--transition); position: relative; overflow: hidden; border: 2px solid transparent; }
+        .info-card::before { content: ''; position: absolute; top: 0; left: -100%; width: 100%; height: 100%; background: linear-gradient(90deg, transparent, rgba(255,82,82,0.1), transparent); transition: left 0.7s; }
+        .info-card:hover::before { left: 100%; }
+        .info-card:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 30px 60px rgba(198,40,40,0.2); border-color: var(--primary); }
+
+        .info-icon { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, var(--primary), var(--secondary)); display: flex; align-items: center; justify-content: center; margin-bottom: 25px; color: var(--white); font-size: 2rem; animation: float 3s ease-in-out infinite; }
+
+        .info-card h3 { color: var(--primary-dark); font-size: 1.8rem; margin-bottom: 20px; font-weight: 800; }
+        .info-card p { color: var(--gray); margin-bottom: 15px; line-height: 1.8; font-size: 1.1rem; display: flex; align-items: flex-start; gap: 12px; }
+        .info-card p i { color: var(--primary); font-size: 1.2rem; margin-top: 3px; transition: var(--transition); }
+        .info-card p:hover i { transform: scale(1.3) rotate(10deg); color: var(--secondary); }
+
+        .address-card { background: linear-gradient(135deg, var(--primary), var(--secondary)); color: var(--white); }
+        .address-card .info-icon { background: var(--white); color: var(--primary); }
+        .address-card h3 { color: var(--white); }
+        .address-card p { color: rgba(255,255,255,0.95); }
+        .address-card p i { color: var(--white); }
+
+        /* CONTACT FORM */
+        .form-card { background: var(--white); border-radius: 20px; padding: 50px; box-shadow: var(--shadow); transition: var(--transition); position: relative; overflow: hidden; }
+        .form-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+        .form-card:hover { transform: translateY(-10px); box-shadow: 0 35px 70px rgba(198,40,40,0.15); }
+        .form-card h3 { color: var(--primary); font-size: 2rem; margin: 0 auto 30px; font-weight: 800; text-align: center; }
+
+        .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+
+        .form-group { margin-bottom: 25px; position: relative; }
+        .form-group input, .form-group textarea {
+            width: 100%; padding: 15px 20px; border: 2px solid #eee;
+            border-radius: 10px; font-size: 1rem; font-family: inherit;
+            transition: var(--transition); background: var(--light);
+        }
+        .form-group textarea { height: 150px; resize: vertical; }
+        .form-group input:focus, .form-group textarea:focus {
+            outline: none; border-color: var(--primary); background: var(--white);
+            box-shadow: 0 5px 20px rgba(198,40,40,0.1); transform: translateY(-3px);
+        }
+        .form-group label {
+            position: absolute; left: 20px; top: 50%; transform: translateY(-50%);
+            color: var(--gray); transition: var(--transition); pointer-events: none;
+            background: var(--light); padding: 0 5px;
+        }
+        .form-group textarea ~ label { top: 18px; transform: none; }
+        .form-group input:focus ~ label,
+        .form-group textarea:focus ~ label,
+        .form-group input:not(:placeholder-shown) ~ label,
+        .form-group textarea:not(:placeholder-shown) ~ label {
+            top: 0; font-size: 0.8rem; color: var(--primary); background: var(--white);
+        }
+
+        .submit-btn { width: 100%; padding: 18px; font-size: 1.2rem; margin-top: 10px; display: flex; align-items: center; justify-content: center; gap: 10px; }
+        .submit-btn i { transition: var(--transition); }
+        .submit-btn:hover i { transform: translateX(10px); }
+        .submit-btn .btn-spinner { display: none; width: 20px; height: 20px; border: 2px solid var(--white); border-top-color: transparent; border-radius: 50%; animation: spin 0.8s linear infinite; }
+        .submit-btn.loading { pointer-events: none; opacity: 0.8; }
+        .submit-btn.loading .btn-spinner { display: inline-block; }
+        .submit-btn.loading .btn-icon, .submit-btn.loading .btn-text { display: none; }
+
+        /* TOAST */
+        .toast { position: fixed; bottom: 30px; right: 30px; background: var(--white); border-radius: 10px; padding: 15px 25px; box-shadow: 0 10px 30px rgba(0,0,0,0.2); display: flex; align-items: center; gap: 15px; z-index: 2000; transform: translateX(400px); transition: transform 0.3s ease; border-left: 4px solid; max-width: 350px; }
+        .toast.show { transform: translateX(0); }
+        .toast.success { border-left-color: #4caf50; }
+        .toast.error { border-left-color: var(--primary); }
+        .toast i { font-size: 1.5rem; }
+        .toast.success i { color: #4caf50; }
+        .toast.error i { color: var(--primary); }
+        .toast-content { flex: 1; }
+        .toast-title { font-weight: 700; margin-bottom: 5px; }
+        .toast-message { color: var(--gray); font-size: 0.9rem; }
+
+        /* MAP */
+        .map-section { padding: 100px 0; background: linear-gradient(135deg, var(--light), #fff); position: relative; }
+        .map-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary)); background-size: 200% 100%; animation: gradient 3s ease infinite; }
+        .map-container { border-radius: 20px; overflow: hidden; box-shadow: var(--shadow); height: 450px; transition: var(--transition); border: 3px solid var(--white); }
+        .map-container:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 35px 70px rgba(198,40,40,0.25); border-color: var(--primary); }
+        .map-container iframe { width: 100%; height: 100%; border: 0; }
+
+        /* FOOTER */
+        footer { background: linear-gradient(135deg, #1a0f0a, #2c1810); color: var(--white); padding: 80px 0 40px; position: relative; overflow: hidden; }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--secondary), var(--primary), var(--secondary)); }
+        .footer-content { display: grid; grid-template-columns: repeat(4,1fr); gap: 40px; margin-bottom: 60px; }
+        .footer-column h3 { color: var(--white); font-size: 1.3rem; margin-bottom: 25px; position: relative; padding-bottom: 10px; font-weight: 700; }
+        .footer-column h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background: var(--secondary); border-radius: 2px; }
+        .footer-column p { color: rgba(255,255,255,0.85); margin-bottom: 15px; line-height: 1.8; font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .footer-column p i { color: var(--secondary); margin-top: 3px; }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column ul li a { color: rgba(255,255,255,0.85); transition: var(--transition); text-decoration: none; display: flex; align-items: center; gap: 10px; font-weight: 500; }
+        .footer-column ul li a:hover { color: var(--secondary); padding-left: 5px; }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-links a { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: var(--white); transition: var(--transition); text-decoration: none; font-size: 1.2rem; }
+        .social-links a:hover { background: var(--secondary); transform: translateY(-5px) rotate(10deg); }
+        .copyright { text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+        .footer-motto { font-style: italic; margin-top: 10px; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .footer-content { grid-template-columns: repeat(2,1fr); }
+        }
+
+        @media (max-width: 992px) {
+            .contact-grid { grid-template-columns: 1fr; gap: 40px; }
+            .contact-form-container { order: -1; }
+            .form-row { grid-template-columns: 1fr; }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+
+            /* Hamburger */
+            .mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px; height: 40px;
+                border-radius: 8px;
+                background: var(--light);
+                border: 1.5px solid rgba(198,40,40,0.2);
+                color: var(--primary);
+                font-size: 1.15rem;
+                cursor: pointer;
+                flex-shrink: 0;
+                margin-left: auto;
+                order: 3;
+                transition: background 0.2s ease;
+            }
+            .mobile-menu:hover { background: rgba(198,40,40,0.12); transform: none; }
+
+            /* Header */
+            .header-container { padding: 8px 0; min-height: 62px; }
+            .logo-image { height: 38px; }
+            .logo-text h1 { font-size: 1rem; }
+            .logo-text p { font-size: 0.6rem; }
+
+            /* Nav drawer */
+            nav ul {
+                position: fixed;
+                top: 62px; left: -100%;
+                width: 100%; height: calc(100vh - 62px);
+                background: var(--white);
+                flex-direction: column; align-items: center; justify-content: center;
+                padding: 0; gap: 6px;
+                transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
+                z-index: 999;
+            }
+            nav ul.active { left: 0; }
+            nav ul li { width: 78%; display: flex; justify-content: center; }
+            nav ul li a { display: block; width: 100%; text-align: center; padding: 13px 20px; border-radius: 12px; font-size: 0.95rem; color: var(--dark); }
+            nav ul li a:hover, nav ul li a.active { background: var(--light); color: var(--primary); transform: none; }
+            nav ul li a.active::after { display: none; }
+            nav ul li a.btn-primary {
+                background: linear-gradient(135deg, #c62828, #b71c1c) !important;
+                color: white !important; border-radius: 50px !important;
+                margin-top: 6px; box-shadow: 0 4px 15px rgba(198,40,40,0.3);
+            }
+
+            /* Page banner */
+            .page-banner { margin-top: 62px; padding: 100px 0 70px; background-attachment: scroll; }
+            .page-banner h1 { font-size: 2rem; }
+            .page-banner p { font-size: 1rem; }
+
+            /* Contact */
+            .contact-section { padding: 60px 0; }
+            .contact-header h2 { font-size: 1.8rem; }
+            .contact-header p { font-size: 1rem; }
+            .info-card { padding: 25px; }
+            .info-card h3 { font-size: 1.3rem; }
+            .info-card p { font-size: 0.95rem; }
+            .form-card { padding: 25px 20px; }
+            .form-card h3 { font-size: 1.5rem; }
+            .submit-btn { padding: 15px; font-size: 1rem; }
+
+            /* Map */
+            .map-section { padding: 60px 0; }
+            .map-container { height: 300px; }
+
+            /* Footer */
+            .footer-content { grid-template-columns: 1fr; text-align: center; gap: 25px; }
+            .footer-column h3::after { left: 50%; transform: translateX(-50%); }
+            .footer-column p { justify-content: center; }
+            .footer-column ul li a { justify-content: center; }
+            .social-links { justify-content: center; }
+
+            /* Toast */
+            .toast { bottom: 15px; right: 15px; left: 15px; transform: translateY(100px); max-width: none; }
+            .toast.show { transform: translateY(0); }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text p { display: none; }
+            .logo-text h1 { font-size: 0.95rem; }
+            .page-banner h1 { font-size: 1.7rem; }
+            .section-title h2 { font-size: 1.8rem; }
+            .info-icon { width: 55px; height: 55px; font-size: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress -->
+    <div class="scroll-progress"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="Logo's/Urban Ministry.jpeg" alt="Urban Ministry Logo" class="logo-image" onerror="this.style.display='none';">
+                <div class="logo-text">
+                    <h1>Urban Ministry Jos</h1>
+                    <p>Helping People to Help Themselves</p>
+                </div>
+            </a>
+            <button class="mobile-menu"><i class="fas fa-bars"></i></button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="impact.html">Impact</a></li>
+                    <li><a href="contact.html" class="active">Contact</a></li>
+                    <li><a href="donate.html" class="btn btn-primary">Donate Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1>Contact Us</h1>
+            <p>Get in touch with Urban Ministry Jos</p>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-header">
+                <h2>URBAN MINISTRY (UM) NGO</h2>
+                <p>We'd love to hear from you. Reach out to us through any of the channels below.</p>
+            </div>
+
+            <div class="contact-grid">
+                <!-- Info Cards -->
+                <div class="contact-info">
+                    <div class="info-card address-card">
+                        <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                        <h3>Office Address</h3>
+                        <p><i class="fas fa-location-dot"></i> Katon Rikkos, Along Lamingo Road, Behind Langfield Motel, Jos North LGA, Jos, Plateau State, Nigeria</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                        <h3>Email Us</h3>
+                        <p><i class="fas fa-envelope"></i> josurbanministry@gmail.com</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-phone"></i></div>
+                        <h3>Call Us</h3>
+                        <p><i class="fas fa-phone-alt"></i> +234 803 453 5263</p>
+                        <p><i class="fas fa-phone-alt"></i> +234 803 913 0385</p>
+                    </div>
+                    <div class="info-card">
+                        <div class="info-icon"><i class="fas fa-thumbs-up"></i></div>
+                        <h3>Follow Us</h3>
+                        <p><i class="fab fa-facebook"></i> @Urban Ministry Jos</p>
+                    </div>
+                </div>
+
+                <!-- Contact Form — connected to mail.php -->
+                <div class="contact-form-container">
+                    <div class="form-card">
+                        <h3>Send Us a Message</h3>
+                        <form id="contactForm">
+                            <!-- First Name + Last Name side by side -->
+                            <div class="form-row">
+                                <div class="form-group">
+                                    <input type="text" id="firstName" name="firstName" placeholder=" " required>
+                                    <label for="firstName">First Name</label>
+                                </div>
+                                <div class="form-group">
+                                    <input type="text" id="lastName" name="lastName" placeholder=" " required>
+                                    <label for="lastName">Last Name</label>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <input type="email" id="contactEmail" name="contactEmail" placeholder=" " required>
+                                <label for="contactEmail">Email Address</label>
+                            </div>
+                            <div class="form-group">
+                                <input type="text" id="subject" name="subject" placeholder=" " required>
+                                <label for="subject">Subject</label>
+                            </div>
+                            <div class="form-group">
+                                <textarea id="contactMessage" name="contactMessage" placeholder=" " required></textarea>
+                                <label for="contactMessage">Your Message</label>
+                            </div>
+                            <button type="submit" class="btn btn-primary submit-btn" id="submitBtn">
+                                <span class="btn-spinner"></span>
+                                <i class="fas fa-paper-plane btn-icon"></i>
+                                <span class="btn-text">Send Message</span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Map Section -->
+    <section class="map-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Find Us Here</h2>
+                <p>Visit our office in Jos, Plateau State</p>
+            </div>
+            <div class="map-container">
+                <iframe
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3924.123456789012!2d8.876543!3d9.912345!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x1053730f8b3a0e5d%3A0x0!2zOcKwNTQnNDQuNCJOIDjCsDUyJzM1LjUiRQ!5e0!3m2!1sen!2sng!4v1234567890123!5m2!1sen!2sng"
+                    width="100%" height="100%" style="border:0;" allowfullscreen="" loading="lazy">
+                </iframe>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Urban Ministry Jos</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Katon Rikkos, Along Lamingo Road, Behind Langfield Motel, Jos North LGA, Plateau State, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> +2348034535263 / +2348039130385</p>
+                    <p><i class="fas fa-envelope"></i> urbanministry@gmail.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Our Programs</a></li>
+                        <li><a href="impact.html">Our Impact</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Get Involved</h3>
+                    <ul>
+                        <li><a href="volunteer.html">Volunteer</a></li>
+                        <li><a href="partners.html">Partnership</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal & Registration</h3>
+                    <p>Registered with Corporate Affairs Commission</p>
+                    <p><strong>RC Number:</strong> 11136</p>
+                    <p><strong>Since:</strong> 28th May 1998</p>
+                    <p>Non-Profit Organization</p>
+                    <p>Christian NGO</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Urban Ministry Jos. All Rights Reserved. | <em>Helping People to Help Themselves</em></p>
+                <p class="footer-motto">From Crisis to Wholeness: Restoring Dignity, Healing Trauma, and Building Livelihoods</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast -->
+    <div class="toast" id="toast">
+        <i class="fas"></i>
+        <div class="toast-content">
+            <div class="toast-title"></div>
+            <div class="toast-message"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navMenu = document.querySelector('nav ul');
+        mobileMenu.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                const icon = mobileMenu.querySelector('i');
+                if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
+            });
+        });
+
+        // Scroll Progress + Header
+        window.addEventListener('scroll', function() {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            const winHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            scrollProgress.style.width = ((window.scrollY / winHeight) * 100) + '%';
+
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 30px rgba(198,40,40,0.15)';
+                header.style.background = 'rgba(255,255,255,0.98)';
+            } else {
+                header.style.boxShadow = '0 2px 20px rgba(198,40,40,0.1)';
+                header.style.background = 'white';
+            }
+        });
+
+        // Toast
+        function showToast(type, title, message) {
+            const toast = document.getElementById('toast');
+            const icon = toast.querySelector('i');
+            const titleEl = toast.querySelector('.toast-title');
+            const msgEl = toast.querySelector('.toast-message');
+
+            toast.classList.remove('success', 'error', 'show');
+            icon.className = type === 'success' ? 'fas fa-check-circle' : 'fas fa-exclamation-circle';
+            toast.classList.add(type);
+            titleEl.textContent = title;
+            msgEl.textContent = message;
+            toast.classList.add('show');
+            clearTimeout(toast._t);
+            toast._t = setTimeout(() => toast.classList.remove('show'), 5000);
+        }
+
+        // Form Submit — sends to mail.php with correct field names
+        const contactForm = document.getElementById('contactForm');
+        const submitBtn = document.getElementById('submitBtn');
+
+        contactForm.addEventListener('submit', async function(e) {
+            e.preventDefault();
+
+            const firstName     = document.getElementById('firstName').value.trim();
+            const lastName      = document.getElementById('lastName').value.trim();
+            const contactEmail  = document.getElementById('contactEmail').value.trim();
+            const subject       = document.getElementById('subject').value.trim();
+            const contactMessage = document.getElementById('contactMessage').value.trim();
+
+            if (!firstName || !lastName || !contactEmail || !subject || !contactMessage) {
+                showToast('error', 'Missing Fields', 'Please fill in all required fields.');
+                return;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(contactEmail)) {
+                showToast('error', 'Invalid Email', 'Please enter a valid email address.');
+                return;
+            }
+
+            submitBtn.classList.add('loading');
+            submitBtn.disabled = true;
+
+            const formData = new FormData();
+            formData.append('firstName',      firstName);
+            formData.append('lastName',       lastName);
+            formData.append('contactEmail',   contactEmail);
+            formData.append('subject',        subject);
+            formData.append('contactMessage', contactMessage);
+
+            try {
+                const response = await fetch('mail.php', { method: 'POST', body: formData });
+                const text = await response.text();
+                let result;
+                try { result = JSON.parse(text); }
+                catch(err) { result = { success: false, message: 'Server error. Please try again.' }; }
+
+                if (result.success) {
+                    showToast('success', 'Message Sent!', result.message || 'We will get back to you soon.');
+                    contactForm.reset();
+                } else {
+                    showToast('error', 'Failed to Send', result.message || 'Please try again.');
+                }
+            } catch(err) {
+                showToast('error', 'Connection Error', 'Please check your internet connection.');
+            } finally {
+                submitBtn.classList.remove('loading');
+                submitBtn.disabled = false;
+            }
+        });
+
+        // Scroll animation
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, i) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }, i * 150);
+                }
+            });
+        }, { threshold: 0.2 });
+
+        document.querySelectorAll('.info-card, .form-card, .map-container, .contact-header, .section-title').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(40px)';
+            el.style.transition = 'all 0.7s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,660 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>About Us - Urban Ministry Jos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        :root {
+            --primary: #c62828;
+            --primary-dark: #b71c1c;
+            --secondary: #ff5252;
+            --light: #fff5f5;
+            --dark: #333;
+            --gray: #666;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(198, 40, 40, 0.1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        .container { width: 90%; max-width: 1200px; margin: 0 auto; padding: 0 15px; }
+
+        /* HEADER */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 20px rgba(198,40,40,0.1);
+            position: fixed; width: 100%; top: 0; left: 0;
+            z-index: 1000; transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex; justify-content: space-between; align-items: center;
+            padding: 15px 0; min-height: 80px; gap: 10px;
+        }
+
+        .logo { display: flex; align-items: center; gap: 15px; text-decoration: none; color: inherit; transition: transform 0.3s ease; flex-shrink: 0; }
+        .logo:hover { transform: scale(1.02); }
+        .logo-image { height: 60px; width: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(198,40,40,0.2); transition: all 0.3s ease; }
+        .logo-image:hover { transform: rotate(5deg) scale(1.1); }
+        .logo-text h1 { font-size: 1.5rem; color: var(--primary); margin: 0; line-height: 1.2; font-weight: 800; letter-spacing: 0.5px; }
+        .logo-text p { font-size: 0.75rem; color: var(--gray); margin: 3px 0 0 0; font-style: italic; font-weight: 500; }
+
+        nav ul { display: flex; list-style: none; gap: 25px; align-items: center; margin: 0; padding: 0; }
+        nav ul li a { text-decoration: none; color: var(--dark); font-weight: 600; font-size: 0.95rem; padding: 8px 0; position: relative; transition: var(--transition); text-transform: uppercase; letter-spacing: 0.5px; }
+        nav ul li a:hover { color: var(--primary); transform: translateY(-2px); }
+        nav ul li a.active { color: var(--primary); font-weight: 700; }
+        nav ul li a.active::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100%; height: 3px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 2px; }
+
+        /* BUTTONS */
+        .btn { display: inline-block; padding: 12px 28px; border-radius: 50px; font-weight: 700; text-decoration: none; transition: all 0.4s ease; cursor: pointer; border: none; font-size: 0.9rem; text-align: center; font-family: inherit; letter-spacing: 1px; position: relative; overflow: hidden; text-transform: uppercase; }
+        .btn::before { content: ''; position: absolute; top: 50%; left: 50%; width: 0; height: 0; border-radius: 50%; background: rgba(255,255,255,0.3); transform: translate(-50%,-50%); transition: width 0.6s, height 0.6s; }
+        .btn:hover::before { width: 300px; height: 300px; }
+        .btn-primary { background: linear-gradient(135deg, var(--primary), var(--primary-dark)); color: var(--white); box-shadow: 0 8px 25px rgba(198,40,40,0.3); border: 2px solid transparent; }
+        .btn-primary:hover { background: linear-gradient(135deg, var(--primary-dark), #8e0000); transform: translateY(-3px) scale(1.05); }
+        .btn-secondary { background: linear-gradient(135deg, var(--secondary), #ff6b6b); color: var(--white); box-shadow: 0 8px 25px rgba(255,82,82,0.3); }
+        .btn-secondary:hover { transform: translateY(-3px) scale(1.05); }
+        .btn-outline { background: transparent; color: var(--primary); border: 2px solid var(--primary); }
+        .btn-outline:hover { background: var(--primary); color: var(--white); transform: translateY(-3px) scale(1.05); }
+
+        /* MOBILE MENU */
+        .mobile-menu {
+            display: none;
+            font-size: 1.4rem;
+            cursor: pointer;
+            color: var(--primary);
+            background: none;
+            border: none;
+            padding: 8px 10px;
+            margin-left: auto;
+            transition: transform 0.3s ease;
+            line-height: 1;
+        }
+        .mobile-menu:hover { transform: rotate(90deg); }
+
+        /* PAGE BANNER */
+        .page-banner {
+            background: linear-gradient(135deg, rgba(198,40,40,0.95) 0%, rgba(183,28,28,0.95) 100%),
+                url('https://images.unsplash.com/photo-1513475382585-d06e58bcb0e0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover; background-position: center; background-attachment: fixed;
+            color: var(--white); padding: 180px 0 120px; text-align: center;
+            margin-top: 80px; position: relative; overflow: hidden;
+        }
+        .page-banner::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; background: linear-gradient(45deg, transparent 30%, rgba(255,255,255,0.1) 50%, transparent 70%); animation: shimmer 3s infinite linear; }
+        .page-banner h1 { font-size: 4rem; margin-bottom: 20px; text-shadow: 3px 3px 10px rgba(0,0,0,0.3); position: relative; font-weight: 800; line-height: 1.2; animation: fadeIn 1.2s ease forwards 0.3s; }
+        .page-banner p { font-size: 1.4rem; max-width: 800px; margin: 0 auto; opacity: 0.95; position: relative; animation: fadeIn 1.2s ease forwards 0.6s; line-height: 1.6; }
+
+        /* ANIMATIONS */
+        @keyframes fadeIn { from{opacity:0;transform:translateY(30px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes fadeInUp { from{opacity:0;transform:translateY(50px)} to{opacity:1;transform:translateY(0)} }
+        @keyframes float { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-10px)} }
+        @keyframes shimmer { 0%{background-position:-1000px 0} 100%{background-position:1000px 0} }
+        @keyframes gradient { 0%{background-position:0% 50%} 50%{background-position:100% 50%} 100%{background-position:0% 50%} }
+        @keyframes pulse { 0%,100%{transform:scale(1)} 50%{transform:scale(1.05)} }
+        @keyframes slideInLeft { from{opacity:0;transform:translateX(-100px)} to{opacity:1;transform:translateX(0)} }
+        @keyframes slideInRight { from{opacity:0;transform:translateX(100px)} to{opacity:1;transform:translateX(0)} }
+
+        /* HISTORY */
+        .history-section { padding: 100px 0; background: linear-gradient(135deg, var(--light), #fff); position: relative; }
+        .history-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary)); background-size: 200% 100%; animation: gradient 3s ease infinite; }
+        .history-content { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        .history-text h2 { color: var(--primary); font-size: 3rem; margin-bottom: 30px; position: relative; padding-bottom: 20px; font-weight: 800; }
+        .history-text h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100px; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px; }
+        .history-text p { color: #555; margin-bottom: 25px; line-height: 1.9; font-size: 1.2rem; padding-left: 20px; border-left: 3px solid var(--secondary); }
+        .history-image { border-radius: 25px; overflow: hidden; box-shadow: 0 25px 60px rgba(198,40,40,0.15); transform: perspective(1000px) rotateY(5deg); transition: all 0.5s ease; }
+        .history-image:hover { transform: perspective(1000px) rotateY(0deg) scale(1.03); box-shadow: 0 35px 80px rgba(198,40,40,0.25); }
+        .history-image img { width: 100%; height: auto; display: block; transition: transform 0.7s ease; }
+        .history-image:hover img { transform: scale(1.1); }
+
+        /* TIMELINE */
+        .timeline-section { padding: 100px 0; background: white; }
+        .timeline { position: relative; max-width: 1000px; margin: 60px auto 0; }
+        .timeline::before { content: ''; position: absolute; left: 50%; top: 0; bottom: 0; width: 4px; background: linear-gradient(to bottom, var(--primary), var(--secondary)); transform: translateX(-50%); border-radius: 2px; }
+        .timeline-item { margin-bottom: 80px; position: relative; width: 100%; opacity: 0; transform: translateY(50px); transition: all 0.6s ease; }
+        .timeline-item.animated { opacity: 1; transform: translateY(0); }
+        .timeline-item:nth-child(odd) { padding-right: calc(50% + 40px); text-align: right; }
+        .timeline-item:nth-child(even) { padding-left: calc(50% + 40px); }
+        .timeline-year { position: absolute; top: 0; background: linear-gradient(135deg, var(--primary), var(--secondary)); color: white; padding: 12px 30px; border-radius: 30px; font-weight: 800; font-size: 1.3rem; box-shadow: 0 10px 25px rgba(198,40,40,0.4); animation: pulse 2s infinite; z-index: 10; min-width: 90px; text-align: center; border: 3px solid white; letter-spacing: 1px; }
+        .timeline-item:nth-child(odd) .timeline-year { right: calc(50% - 20px); transform: translateX(50%); }
+        .timeline-item:nth-child(even) .timeline-year { left: calc(50% - 20px); transform: translateX(-50%); }
+        .timeline-content { background: white; padding: 40px; border-radius: 20px; box-shadow: 0 15px 40px rgba(198,40,40,0.12); transition: all 0.4s ease; }
+        .timeline-content:hover { transform: translateY(-10px) scale(1.02); box-shadow: 0 25px 60px rgba(198,40,40,0.2); }
+        .timeline-content h3 { color: var(--primary); margin-bottom: 15px; font-size: 1.8rem; font-weight: 800; }
+        .timeline-content p { color: var(--gray); line-height: 1.8; font-size: 1.1rem; }
+
+        /* VALUES */
+        .values-section { padding: 100px 0; background: linear-gradient(135deg, var(--light), #fff); }
+        .values-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; margin-top: 60px; }
+        .value-card { background: white; border-radius: 25px; padding: 50px 40px; text-align: center; box-shadow: var(--shadow); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); position: relative; overflow: hidden; }
+        .value-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary)); background-size: 200% 100%; animation: gradient 3s ease infinite; }
+        .value-card:hover { transform: translateY(-20px) scale(1.03); box-shadow: 0 35px 80px rgba(198,40,40,0.2); }
+        .value-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 30px; animation: float 4s ease-in-out infinite; display: inline-block; }
+        .value-card h3 { color: var(--dark); margin-bottom: 25px; font-size: 1.8rem; font-weight: 800; }
+        .value-card p { color: var(--gray); line-height: 1.8; font-size: 1.1rem; }
+
+        /* CERTIFICATE */
+        .certificate-section { padding: 100px 0; background: white; }
+        .certificate-content { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: start; }
+        .certificate-info h2 { color: var(--primary); font-size: 3rem; margin-bottom: 30px; position: relative; padding-bottom: 20px; font-weight: 800; }
+        .certificate-info h2::after { content: ''; position: absolute; bottom: 0; left: 0; width: 100px; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px; }
+        .certificate-details { background: linear-gradient(135deg, var(--light), #fff); padding: 40px; border-radius: 20px; box-shadow: var(--shadow); border: 2px dashed var(--secondary); margin-top: 30px; }
+        .certificate-details ul { list-style: none; }
+        .certificate-details li { margin-bottom: 20px; padding: 15px; background: white; border-radius: 10px; border-left: 4px solid var(--primary); transition: all 0.3s ease; }
+        .certificate-details li:hover { transform: translateX(10px); box-shadow: 0 10px 25px rgba(198,40,40,0.1); }
+        .certificate-details i { color: var(--primary); margin-right: 15px; font-size: 1.2rem; width: 25px; }
+        .certificate-image { border-radius: 25px; overflow: hidden; box-shadow: 0 25px 60px rgba(198,40,40,0.15); transition: all 0.5s ease; background: var(--light); }
+        .certificate-image:hover { transform: scale(1.02); box-shadow: 0 35px 80px rgba(198,40,40,0.25); }
+        .certificate-image img { width: 100%; height: auto; display: block; }
+
+        /* MISSION */
+        .mission-section { padding: 100px 0; background: linear-gradient(135deg, var(--light), #fff); }
+        .mission-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(350px, 1fr)); gap: 40px; margin-top: 60px; }
+        .mission-card { background: white; border-radius: 25px; padding: 50px 40px; text-align: center; box-shadow: var(--shadow); transition: all 0.5s ease; position: relative; overflow: hidden; }
+        .mission-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 6px; background: linear-gradient(90deg, var(--primary), var(--secondary)); }
+        .mission-card:hover { transform: translateY(-15px) scale(1.02); box-shadow: 0 30px 70px rgba(198,40,40,0.2); }
+        .mission-icon { font-size: 3.5rem; color: var(--primary); margin-bottom: 30px; animation: float 3s ease-in-out infinite; }
+        .mission-card h3 { color: var(--dark); margin-bottom: 25px; font-size: 1.8rem; font-weight: 800; }
+        .mission-card p { color: var(--gray); line-height: 1.8; font-size: 1.1rem; font-style: italic; }
+
+        /* LEADERSHIP */
+        .leadership-section { padding: 100px 0; background: white; position: relative; }
+        .leadership-section::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary)); background-size: 200% 100%; animation: gradient 3s ease infinite; }
+        .leadership-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 50px; margin-top: 60px; }
+        .leader-card { background: white; border-radius: 25px; overflow: hidden; box-shadow: var(--shadow); transition: all 0.5s cubic-bezier(0.4,0,0.2,1); position: relative; text-align: center; }
+        .leader-card::before { content: ''; position: absolute; top: 0; left: 0; width: 100%; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); z-index: 1; }
+        .leader-card:hover { transform: translateY(-20px) scale(1.03); box-shadow: 0 35px 80px rgba(198,40,40,0.25); }
+        .leader-image { width: 100%; height: 350px; overflow: hidden; }
+        .leader-image img { width: 100%; height: 100%; object-fit: cover; object-position: center top; transition: transform 0.7s ease; }
+        .leader-card:hover .leader-image img { transform: scale(1.1); }
+        .leader-info { padding: 30px; background: white; }
+        .leader-name { color: var(--primary); font-size: 1.6rem; font-weight: 800; margin-bottom: 10px; }
+        .leader-title { color: var(--secondary); font-size: 1rem; font-weight: 600; margin-bottom: 15px; display: inline-block; padding: 5px 15px; background: linear-gradient(135deg, var(--light), #fff); border-radius: 20px; }
+        .leader-email { color: var(--gray); font-size: 0.9rem; margin-bottom: 20px; display: flex; align-items: center; justify-content: center; gap: 10px; flex-wrap: wrap; }
+        .leader-email i { color: var(--primary); }
+        .leader-email a { color: var(--gray); text-decoration: none; transition: all 0.3s ease; }
+        .leader-email a:hover { color: var(--primary); }
+
+        /* SECTION TITLE */
+        .section-title { text-align: center; margin-bottom: 80px; position: relative; }
+        .section-title h2 { font-size: 3.2rem; color: var(--primary); margin-bottom: 25px; position: relative; display: inline-block; font-weight: 800; letter-spacing: 1px; }
+        .section-title h2::after { content: ''; position: absolute; bottom: -20px; left: 50%; transform: translateX(-50%); width: 120px; height: 5px; background: linear-gradient(90deg, var(--primary), var(--secondary)); border-radius: 3px; }
+        .section-title p { color: var(--gray); max-width: 800px; margin: 40px auto 0; font-size: 1.3rem; line-height: 1.8; font-weight: 500; }
+
+        /* FOOTER */
+        footer { background: linear-gradient(135deg, #1a0f0a, #2c1810); color: white; padding: 80px 0 40px; position: relative; }
+        footer::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 5px; background: linear-gradient(90deg, var(--secondary), var(--primary), var(--secondary)); }
+        .footer-content { display: grid; grid-template-columns: repeat(4, 1fr); gap: 40px; margin-bottom: 60px; }
+        .footer-column h3 { font-size: 1.3rem; margin-bottom: 25px; position: relative; padding-bottom: 10px; }
+        .footer-column h3::after { content: ''; position: absolute; bottom: 0; left: 0; width: 50px; height: 3px; background: var(--secondary); }
+        .footer-column p { color: rgba(255,255,255,0.85); margin-bottom: 15px; line-height: 1.8; font-size: 0.9rem; display: flex; align-items: flex-start; gap: 10px; }
+        .footer-column p i { color: var(--secondary); }
+        .footer-column ul { list-style: none; }
+        .footer-column ul li { margin-bottom: 12px; }
+        .footer-column ul li a { color: rgba(255,255,255,0.85); text-decoration: none; display: flex; align-items: center; gap: 10px; transition: var(--transition); }
+        .footer-column ul li a:hover { color: var(--secondary); padding-left: 5px; }
+        .social-links { display: flex; gap: 15px; margin-top: 20px; }
+        .social-links a { width: 40px; height: 40px; background: rgba(255,255,255,0.1); border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; transition: var(--transition); }
+        .social-links a:hover { background: var(--secondary); transform: translateY(-5px); }
+        .copyright { text-align: center; padding-top: 40px; border-top: 1px solid rgba(255,255,255,0.1); color: rgba(255,255,255,0.7); font-size: 0.9rem; }
+        .footer-motto { font-style: italic; margin-top: 10px; color: rgba(255,255,255,0.5); font-size: 0.85rem; }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .footer-content { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        @media (max-width: 992px) {
+            .history-content, .certificate-content { grid-template-columns: 1fr; }
+            .history-image, .certificate-image { order: -1; }
+            .timeline::before { left: 30px; }
+            .timeline-item:nth-child(odd),
+            .timeline-item:nth-child(even) { padding: 0 0 0 80px; text-align: left; }
+            .timeline-item:nth-child(odd) .timeline-year,
+            .timeline-item:nth-child(even) .timeline-year { left: 0; right: auto; transform: translateX(0); }
+            .values-grid, .mission-grid, .leadership-grid { grid-template-columns: repeat(2, 1fr); }
+        }
+
+        /* ===== MOBILE ===== */
+        @media (max-width: 768px) {
+
+            /* Hamburger — styled button top right */
+            .mobile-menu {
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                width: 40px; height: 40px;
+                border-radius: 8px;
+                background: var(--light);
+                border: 1.5px solid rgba(198,40,40,0.2);
+                color: var(--primary);
+                font-size: 1.15rem;
+                cursor: pointer;
+                flex-shrink: 0;
+                margin-left: auto;
+                order: 3;
+                transition: background 0.2s ease;
+            }
+            .mobile-menu:hover { background: rgba(198,40,40,0.12); transform: none; }
+
+            /* Header tighter */
+            .header-container { padding: 8px 0; min-height: 62px; }
+            .logo-image { height: 38px; }
+            .logo-text h1 { font-size: 1rem; }
+            .logo-text p { font-size: 0.6rem; }
+
+            /* Nav drawer */
+            nav ul {
+                position: fixed;
+                top: 62px; left: -100%;
+                width: 100%; height: calc(100vh - 62px);
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: center;
+                padding: 0; gap: 6px;
+                transition: left 0.4s cubic-bezier(0.4,0,0.2,1);
+                z-index: 999;
+            }
+            nav ul.active { left: 0; }
+
+            nav ul li { width: 78%; display: flex; justify-content: center; }
+            nav ul li a { display: block; width: 100%; text-align: center; padding: 13px 20px; border-radius: 12px; font-size: 0.95rem; color: var(--dark); }
+            nav ul li a:hover, nav ul li a.active { background: var(--light); color: var(--primary); transform: none; }
+            nav ul li a.active::after { display: none; }
+            nav ul li a.btn-primary {
+                background: linear-gradient(135deg, #c62828, #b71c1c) !important;
+                color: white !important;
+                border-radius: 50px !important;
+                margin-top: 6px;
+                box-shadow: 0 4px 15px rgba(198,40,40,0.3);
+            }
+
+            /* Page banner — matches header height */
+            .page-banner {
+                margin-top: 62px;
+                padding: 100px 0 70px;
+                background-attachment: scroll;
+            }
+            .page-banner h1 { font-size: 2rem; }
+            .page-banner p { font-size: 1rem; }
+
+            /* Sections */
+            .section-title h2 { font-size: 1.8rem; }
+            .section-title p { font-size: 1rem; margin-top: 25px; }
+            .history-text h2, .certificate-info h2 { font-size: 1.8rem; }
+            .history-text p { font-size: 1rem; }
+
+            .values-grid, .mission-grid, .leadership-grid { grid-template-columns: 1fr; }
+            .value-card, .mission-card { padding: 30px 20px; }
+            .value-card h3, .mission-card h3 { font-size: 1.4rem; }
+            .value-card p, .mission-card p { font-size: 1rem; }
+
+            .timeline-content { padding: 25px; }
+            .timeline-content h3 { font-size: 1.4rem; }
+            .timeline-content p { font-size: 1rem; }
+
+            .leader-image { height: 280px; }
+            .leader-name { font-size: 1.3rem; }
+
+            /* Footer */
+            .footer-content { grid-template-columns: 1fr; text-align: center; gap: 30px; }
+            .footer-column h3::after { left: 50%; transform: translateX(-50%); }
+            .footer-column p { justify-content: center; }
+            .footer-column ul li a { justify-content: center; }
+            .social-links { justify-content: center; }
+        }
+
+        @media (max-width: 480px) {
+            .logo-text p { display: none; }
+            .logo-text h1 { font-size: 0.95rem; }
+            .page-banner h1 { font-size: 1.7rem; }
+            .leader-image { height: 240px; }
+            .timeline-year { font-size: 1rem; padding: 8px 16px; }
+        }
+    </style>
+</head>
+<body>
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="Logo's/Urban Ministry.jpeg" alt="Urban Ministry Logo" class="logo-image" onerror="this.style.display='none';">
+                <div class="logo-text">
+                    <h1>Urban Ministry Jos</h1>
+                    <p>Helping People to Help Themselves</p>
+                </div>
+            </a>
+            <button class="mobile-menu"><i class="fas fa-bars"></i></button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html" class="active">About</a></li>
+                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="impact.html">Impact</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="donate.html" class="btn btn-primary">Donate Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1>About Urban Ministry Jos</h1>
+            <p>Transforming communities in Plateau State since 1990 through holistic development and empowerment</p>
+        </div>
+    </section>
+
+    <!-- History Section -->
+    <section class="history-section">
+        <div class="container">
+            <div class="history-content">
+                <div class="history-text">
+                    <h2>Our History</h2>
+                    <p>Urban Ministry (UM) is a Christian, non-profit, non-governmental organization established following thorough research by World Renew to ascertain the level of poverty in Plateau State in 1990.</p>
+                    <p>This research led to the establishment of the organization and informed the design of plans and programs to address identified needs in a sustainable manner.</p>
+                    <p>Urban Ministry commenced operations in 1991 and was officially registered with the Corporate Affairs Commission of the Federal Government of Nigeria on 28th May 1998, with registration number RC 11136.</p>
+                    <p>Today, UM has over 100 cooperative groups with approximately 7,843 beneficiaries spread across five (5) Local Government Councils in Plateau State: Jos North, Jos South, Bassa, Riyom, and Barkin Ladi.</p>
+                </div>
+                <div class="history-image">
+                    <img src="images/Trauma Healing & Peace Building/1.jpeg" alt="Urban Ministry History">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Timeline Section -->
+    <section class="timeline-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Journey</h2>
+                <p>Key milestones in our history of service and transformation</p>
+            </div>
+            <div class="timeline">
+                <div class="timeline-item">
+                    <div class="timeline-year">1990</div>
+                    <div class="timeline-content"><h3>Establishment</h3><p>Urban Ministry founded following World Renew research on poverty levels in Plateau State, Nigeria.</p></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1991</div>
+                    <div class="timeline-content"><h3>Operations Begin</h3><p>Started community development programs in Jos North Local Government Area with initial focus on food security.</p></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">1998</div>
+                    <div class="timeline-content"><h3>Official Registration</h3><p>Registered with Corporate Affairs Commission of Nigeria (RC 11136) as a non-profit organization.</p></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2005</div>
+                    <div class="timeline-content"><h3>Expansion Phase</h3><p>Expanded operations to cover 5 LGAs: Jos North, Jos South, Bassa, Riyom, and Barkin Ladi.</p></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2010</div>
+                    <div class="timeline-content"><h3>Program Diversification</h3><p>Launched comprehensive trauma healing and peace building programs in conflict-affected communities.</p></div>
+                </div>
+                <div class="timeline-item">
+                    <div class="timeline-year">2023</div>
+                    <div class="timeline-content"><h3>Current Reach</h3><p>7,843+ beneficiaries across 100+ cooperative groups, transforming lives through holistic development.</p></div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Mission Section -->
+    <section class="mission-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Mission & Vision</h2>
+                <p>Guiding principles that drive our work and define our purpose</p>
+            </div>
+            <div class="mission-grid">
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-bullseye"></i></div>
+                    <h3>Our Mission</h3>
+                    <p>"Guided by faith and compassion, our mission is to deliver holistic transformation in crisis-affected urban/rural communities by providing integrated programs in Livelihood, Food Security, Education Empowerment, Health and Wellness, Trauma Healing, and Peace Building, empowering residents toward self-sufficiency and renewed dignity."</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-eye"></i></div>
+                    <h3>Our Vision</h3>
+                    <p>"To see urban and rural communities transformed into resilient, thriving, and peaceful neighborhoods where every resident achieves physical, emotional, and economic wholeness, free from the burdens of hunger, trauma, and chronic poverty."</p>
+                </div>
+                <div class="mission-card">
+                    <div class="mission-icon"><i class="fas fa-heart"></i></div>
+                    <h3>Our Motto</h3>
+                    <p>"Helping People to Help Themselves: Every person possesses innate potential. Our role is to act as a catalyst, offering guidance and resources to unlock these potentials, allowing individuals to become agents of their own destiny rather than passive recipients of aid."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Values Section -->
+    <section class="values-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Core Values</h2>
+                <p>The principles that guide our work and define our character</p>
+            </div>
+            <div class="values-grid">
+                <div class="value-card"><div class="value-icon"><i class="fas fa-cross"></i></div><h3>Christ-Centered Service</h3><p>Serving communities with love, humility, and compassion, especially the poor, traumatized, and food-insecure, rooted in the teachings of Jesus Christ.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-users"></i></div><h3>Community Participation</h3><p>Working collaboratively with communities, cooperatives, and local institutions, ensuring local ownership and sustainability of interventions.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-handshake"></i></div><h3>Stewardship & Integrity</h3><p>Upholding transparency, ethical conduct, and responsible management of resources entrusted by donors, partners, and communities.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-heart"></i></div><h3>Respect for Human Dignity</h3><p>Affirming the God-given dignity and worth of every individual, serving all people without discrimination based on faith, ethnicity, gender, or social status.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-scale-balanced"></i></div><h3>Justice & Equity</h3><p>Advocating for fair access to resources and opportunities, prioritizing vulnerable groups including women, youth, and crisis-affected households.</p></div>
+                <div class="value-card"><div class="value-icon"><i class="fas fa-peace"></i></div><h3>Peace Building</h3><p>Promoting healing, reconciliation, and peaceful coexistence in communities affected by conflict, supporting trauma recovery and social cohesion.</p></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Certificate Section -->
+    <section class="certificate-section">
+        <div class="container">
+            <div class="certificate-content">
+                <div class="certificate-info">
+                    <h2>Legal & Registration</h2>
+                    <p>Urban Ministry is fully registered and compliant with all Nigerian laws and regulations governing non-profit organizations.</p>
+                    <div class="certificate-details">
+                        <ul>
+                            <li><i class="fas fa-file-contract"></i> <strong>Registered with:</strong> Corporate Affairs Commission, Nigeria</li>
+                            <li><i class="fas fa-hashtag"></i> <strong>RC Number:</strong> 11136</li>
+                            <li><i class="fas fa-calendar-day"></i> <strong>Registration Date:</strong> 28th May 1998</li>
+                            <li><i class="fas fa-shield-alt"></i> <strong>Organization Type:</strong> Non-Profit Organization</li>
+                            <li><i class="fas fa-church"></i> <strong>Religious Affiliation:</strong> Christian NGO</li>
+                            <li><i class="fas fa-award"></i> <strong>Status:</strong> Active and in Good Standing</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="certificate-image">
+                    <img src="images/CAC-Certificate.jpeg" alt="Urban Ministry Registration Certificate">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Leadership Team -->
+    <section class="leadership-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Leadership Team</h2>
+                <p>Meet the dedicated leaders guiding Urban Ministry Jos towards our vision</p>
+            </div>
+            <div class="leadership-grid">
+                <div class="leader-card">
+                    <div class="leader-image"><img src="images/Mr. Moses Lingvwam.jpeg" alt="Mr. Moses Lingvwam"></div>
+                    <div class="leader-info">
+                        <h3 class="leader-name">Mr. Moses Lingvwam</h3>
+                        <div class="leader-title">Board Vice Chairman Urban Ministry</div>
+                        <div class="leader-email"><i class="fas fa-envelope"></i> <a href="mailto:josurbanministry@gmail.com">josurbanministry@gmail.com</a></div>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image"><img src="images/Dr. Jonathan Karshima.jpeg" alt="Dr. Jonathan Karshima"></div>
+                    <div class="leader-info">
+                        <h3 class="leader-name">Dr. Jonathan Karshima</h3>
+                        <div class="leader-title">Trustee Chairman, Urban Ministry / MD Solace Hospital, Jos</div>
+                        <div class="leader-email"><i class="fas fa-envelope"></i> <a href="mailto:josurbanministry@gmail.com">josurbanministry@gmail.com</a></div>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image"><img src="images/Mrs Ruth Johnson.jpeg" alt="Mrs Ruth Johnson Dul"></div>
+                    <div class="leader-info">
+                        <h3 class="leader-name">Mrs. Ruth Johnson Dul</h3>
+                        <div class="leader-title">Trustee Secretary / Director Development Associate International</div>
+                        <div class="leader-email"><i class="fas fa-envelope"></i> <a href="mailto:josurbanministry@gmail.com">josurbanministry@gmail.com</a></div>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image"><img src="images/Mr Andrew.jpeg" alt="Mr Andrew Gwaivangmin"></div>
+                    <div class="leader-info">
+                        <h3 class="leader-name">Mr. Andrew Gwaivangmin</h3>
+                        <div class="leader-title">Trustee Member / Executive Director, NEMA, Plateau State</div>
+                        <div class="leader-email"><i class="fas fa-envelope"></i> <a href="mailto:josurbanministry@gmail.com">josurbanministry@gmail.com</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Management Team -->
+    <section class="leadership-section">
+        <div class="container">
+            <div class="section-title">
+                <h2>Our Management Team</h2>
+                <p>Focused, reliable, and driven — our management staff keeps everything running seamlessly</p>
+            </div>
+            <div class="leadership-grid">
+                <div class="leader-card">
+                    <div class="leader-image"><img src="images/Mary Yohanna.jpeg" alt="Mary Yohanna Bature"></div>
+                    <div class="leader-info">
+                        <h3 class="leader-name">Mary Yohanna Bature</h3>
+                        <div class="leader-title">Executive Director, Urban Ministry</div>
+                        <div class="leader-email"><i class="fas fa-envelope"></i> <a href="mailto:marybature7@gmail.com">marybature7@gmail.com</a></div>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image"><img src="images/Nenrot.jpeg" alt="Akyuku Nenrot Ernest"></div>
+                    <div class="leader-info">
+                        <h3 class="leader-name">Akyuku Nenrot Ernest</h3>
+                        <div class="leader-title">Program Officer, Urban Ministry</div>
+                        <div class="leader-email"><i class="fas fa-envelope"></i> <a href="mailto:nenrotakyuku@gmail.com">nenrotakyuku@gmail.com</a></div>
+                    </div>
+                </div>
+                <div class="leader-card">
+                    <div class="leader-image"><img src="images/Fanan Nankat.jpeg" alt="Fanan Nankat Tanko"></div>
+                    <div class="leader-info">
+                        <h3 class="leader-name">Fanan Nankat Tanko</h3>
+                        <div class="leader-title">Finance Officer, Urban Ministry</div>
+                        <div class="leader-email"><i class="fas fa-envelope"></i> <a href="mailto:tfananurban@yahoo.com">tfananurban@yahoo.com</a></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Urban Ministry Jos</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Katon Rikkos, Along Lamingo Road, Behind Langfield Motel, Jos North LGA, Plateau State, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> +2348034535263 / +2348039130385</p>
+                    <p><i class="fas fa-envelope"></i> urbanministry@gmail.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Our Programs</a></li>
+                        <li><a href="impact.html">Our Impact</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Get Involved</h3>
+                    <ul>
+                        <li><a href="volunteer.html">Volunteer</a></li>
+                        <li><a href="partners.html">Partnership</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal & Registration</h3>
+                    <p>Registered with Corporate Affairs Commission</p>
+                    <p><strong>RC Number:</strong> 11136</p>
+                    <p><strong>Since:</strong> 28th May 1998</p>
+                    <p>Non-Profit Organization</p>
+                    <p>Christian NGO</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2025 Urban Ministry Jos. All Rights Reserved. | <em>Helping People to Help Themselves</em></p>
+                <p class="footer-motto">From Crisis to Wholeness: Restoring Dignity, Healing Trauma, and Building Livelihoods</p>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Mobile Menu
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navMenu = document.querySelector('nav ul');
+
+        mobileMenu.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                const icon = mobileMenu.querySelector('i');
+                if (icon) { icon.classList.remove('fa-times'); icon.classList.add('fa-bars'); }
+            });
+        });
+
+        // Timeline Animation
+        const timelineItems = document.querySelectorAll('.timeline-item');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach((entry, index) => {
+                if (entry.isIntersecting) {
+                    setTimeout(() => { entry.target.classList.add('animated'); }, index * 200);
+                }
+            });
+        }, { threshold: 0.3 });
+        timelineItems.forEach(item => observer.observe(item));
+
+        // Header scroll
+        window.addEventListener('scroll', function() {
+            const header = document.querySelector('header');
+            if (window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 30px rgba(198,40,40,0.15)';
+                header.style.background = 'rgba(255,255,255,0.98)';
+            } else {
+                header.style.boxShadow = '0 2px 20px rgba(198,40,40,0.1)';
+                header.style.background = 'white';
+            }
+        });
+    </script>
+</body>
+</html>

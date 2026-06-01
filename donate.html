@@ -1,0 +1,1290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Donate - Urban Ministry Jos</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* ===== RESET & BASE ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #c62828;
+            --primary-dark: #b71c1c;
+            --secondary: #ff5252;
+            --light: #fff5f5;
+            --dark: #333;
+            --gray: #666;
+            --white: #ffffff;
+            --shadow: 0 10px 30px rgba(198, 40, 40, 0.1);
+            --transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background-color: var(--white);
+            overflow-x: hidden;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 15px;
+        }
+
+        /* ===== SCROLL PROGRESS ===== */
+        .scroll-progress {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 0%;
+            height: 4px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            z-index: 1001;
+            transition: width 0.3s ease;
+        }
+
+        /* ===== HEADER & NAVBAR ===== */
+        header {
+            background-color: var(--white);
+            box-shadow: 0 2px 20px rgba(198, 40, 40, 0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            left: 0;
+            z-index: 1000;
+            transition: var(--transition);
+        }
+
+        .header-container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            min-height: 80px;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            text-decoration: none;
+            color: inherit;
+            transition: transform 0.3s ease;
+            flex-shrink: 0;
+        }
+
+        .logo:hover {
+            transform: scale(1.02);
+        }
+
+        .logo-image {
+            height: 60px;
+            width: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(198, 40, 40, 0.2);
+            transition: all 0.3s ease;
+        }
+
+        .logo-image:hover {
+            transform: rotate(5deg) scale(1.1);
+            box-shadow: 0 6px 20px rgba(198, 40, 40, 0.3);
+        }
+
+        .logo-text h1 {
+            font-size: 1.5rem;
+            color: var(--primary);
+            margin: 0;
+            line-height: 1.2;
+            font-weight: 800;
+            letter-spacing: 0.5px;
+        }
+
+        .logo-text p {
+            font-size: 0.75rem;
+            color: var(--gray);
+            margin: 3px 0 0 0;
+            font-style: italic;
+            font-weight: 500;
+        }
+
+        nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+            align-items: center;
+            margin: 0;
+            padding: 0;
+        }
+
+        nav ul li a {
+            text-decoration: none;
+            color: var(--dark);
+            font-weight: 600;
+            font-size: 0.95rem;
+            padding: 8px 0;
+            position: relative;
+            transition: var(--transition);
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        nav ul li a:hover {
+            color: var(--primary);
+            transform: translateY(-2px);
+        }
+
+        nav ul li a.active {
+            color: var(--primary);
+            font-weight: 700;
+        }
+
+        nav ul li a.active::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            height: 3px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            border-radius: 2px;
+        }
+
+        /* ===== BUTTONS ===== */
+        .btn {
+            display: inline-block;
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 700;
+            text-decoration: none;
+            transition: all 0.4s ease;
+            cursor: pointer;
+            border: none;
+            font-size: 0.9rem;
+            text-align: center;
+            font-family: inherit;
+            letter-spacing: 1px;
+            position: relative;
+            overflow: hidden;
+            text-transform: uppercase;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+            transform: translate(-50%, -50%);
+            transition: width 0.6s, height 0.6s;
+        }
+
+        .btn:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .btn-primary {
+            background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+            color: #ffffff !important;
+            box-shadow: 0 8px 25px rgba(198, 40, 40, 0.3);
+            border: 2px solid transparent;
+        }
+
+        .btn-primary:hover {
+            background: linear-gradient(135deg, var(--primary-dark), #8e0000);
+            transform: translateY(-3px) scale(1.05);
+            box-shadow: 0 15px 35px rgba(198, 40, 40, 0.4);
+            color: #ffffff !important;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 2px solid var(--primary);
+            color: var(--primary);
+        }
+
+        .btn-outline:hover {
+            background: var(--primary);
+            color: var(--white);
+            transform: translateY(-3px) scale(1.05);
+        }
+
+        /* ===== MOBILE MENU ===== */
+        .mobile-menu {
+            display: none;
+            font-size: 1.8rem;
+            cursor: pointer;
+            color: var(--primary);
+            background: none;
+            border: none;
+            padding: 10px;
+            transition: transform 0.3s ease;
+        }
+
+        .mobile-menu:hover {
+            transform: rotate(90deg);
+        }
+
+        /* ===== PAGE BANNER ===== */
+        .page-banner {
+            background: linear-gradient(135deg, 
+                rgba(198, 40, 40, 0.95) 0%,
+                rgba(183, 28, 28, 0.95) 100%),
+                url('https://images.unsplash.com/photo-1532629345422-7515f3d16bb6?ixlib=rb-4.0.3&auto=format&fit=crop&w=1600&q=80');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            color: var(--white);
+            padding: 180px 0 120px;
+            text-align: center;
+            margin-top: 80px;
+            position: relative;
+            overflow: hidden;
+            animation: gradient 8s ease infinite;
+            background-size: 400% 400%;
+        }
+
+        .page-banner::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+            animation: shimmer 3s infinite linear;
+        }
+
+        .page-banner h1 {
+            font-size: 4rem;
+            margin-bottom: 20px;
+            text-shadow: 3px 3px 10px rgba(0, 0, 0, 0.3);
+            position: relative;
+            animation: fadeIn 1.2s ease forwards 0.3s;
+            font-weight: 800;
+            line-height: 1.2;
+        }
+
+        .page-banner p {
+            font-size: 1.4rem;
+            max-width: 800px;
+            margin: 0 auto;
+            opacity: 0.95;
+            position: relative;
+            animation: fadeIn 1.2s ease forwards 0.6s;
+            text-shadow: 1px 1px 5px rgba(0, 0, 0, 0.2);
+            line-height: 1.6;
+        }
+
+        /* ===== ANIMATIONS ===== */
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(30px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-15px);
+            }
+        }
+
+        @keyframes shimmer {
+            0% {
+                background-position: -1000px 0;
+            }
+            100% {
+                background-position: 1000px 0;
+            }
+        }
+
+        @keyframes gradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+
+        @keyframes slideInLeft {
+            from {
+                opacity: 0;
+                transform: translateX(-50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        @keyframes slideInRight {
+            from {
+                opacity: 0;
+                transform: translateX(50px);
+            }
+            to {
+                opacity: 1;
+                transform: translateX(0);
+            }
+        }
+
+        /* ===== DONATION SECTION ===== */
+        .donation-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--light), #fff);
+            position: relative;
+        }
+
+        .donation-section::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary), var(--primary));
+            background-size: 200% 100%;
+            animation: gradient 3s ease infinite;
+        }
+
+        .donation-header {
+            text-align: center;
+            margin-bottom: 60px;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .donation-header h2 {
+            font-size: 3rem;
+            color: var(--primary);
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .donation-header p {
+            color: var(--gray);
+            font-size: 1.2rem;
+            max-width: 700px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
+        /* ===== DONATION GRID ===== */
+        .donation-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 60px;
+            margin-top: 60px;
+        }
+
+        /* ===== IMPACT CARD ===== */
+        .impact-container {
+            animation: slideInRight 1s ease;
+        }
+
+        .impact-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+        }
+
+        .impact-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .impact-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 35px 70px rgba(198, 40, 40, 0.15);
+        }
+
+        .impact-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: var(--white);
+            font-size: 2.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .impact-card h3 {
+            color: var(--primary);
+            font-size: 2rem;
+            margin-bottom: 30px;
+            font-weight: 800;
+            text-align: center;
+        }
+
+        .impact-stats {
+            margin-bottom: 40px;
+        }
+
+        .impact-stat {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .impact-stat .number {
+            font-size: 2.5rem;
+            font-weight: 800;
+            color: var(--primary);
+            display: block;
+            line-height: 1.2;
+        }
+
+        .impact-stat .label {
+            color: var(--gray);
+            font-size: 1.1rem;
+        }
+
+        .impact-list {
+            list-style: none;
+            margin-bottom: 30px;
+        }
+
+        .impact-list li {
+            padding: 15px 0;
+            border-bottom: 1px solid rgba(198, 40, 40, 0.1);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            color: var(--dark);
+        }
+
+        .impact-list li i {
+            color: var(--primary);
+            font-size: 1.2rem;
+        }
+
+        .testimonial {
+            background: var(--light);
+            padding: 30px;
+            border-radius: 10px;
+            margin-top: 30px;
+            position: relative;
+        }
+
+        .testimonial i {
+            color: var(--primary);
+            font-size: 2rem;
+            opacity: 0.3;
+            position: absolute;
+            top: 20px;
+            left: 20px;
+        }
+
+        .testimonial p {
+            color: var(--dark);
+            font-style: italic;
+            line-height: 1.8;
+            margin-bottom: 15px;
+            padding-left: 30px;
+        }
+
+        .testimonial .author {
+            color: var(--primary);
+            font-weight: 700;
+            text-align: right;
+        }
+
+        /* ===== DONATION INFO CARD ===== */
+        .donation-info-container {
+            animation: slideInLeft 1s ease;
+        }
+
+        .info-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 50px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            height: 100%;
+            text-align: center;
+        }
+
+        .info-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+        }
+
+        .info-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 35px 70px rgba(198, 40, 40, 0.15);
+        }
+
+        .info-icon {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            color: var(--white);
+            font-size: 2.5rem;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .info-card h3 {
+            color: var(--primary);
+            font-size: 1.8rem;
+            margin-bottom: 20px;
+            font-weight: 800;
+        }
+
+        .info-card p {
+            color: var(--gray);
+            line-height: 1.8;
+            margin-bottom: 30px;
+        }
+
+        .donate-bank-btn {
+            display: inline-block;
+            margin-top: 20px;
+        }
+
+        /* ===== BANK DETAILS SECTION ===== */
+        .bank-section {
+            padding: 100px 0;
+            background: linear-gradient(135deg, var(--light), #fff);
+        }
+
+        .bank-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 40px;
+            margin-top: 60px;
+        }
+
+        .bank-card {
+            background: var(--white);
+            border-radius: 20px;
+            padding: 40px;
+            box-shadow: var(--shadow);
+            transition: var(--transition);
+            text-align: center;
+            animation: fadeInUp 0.8s ease;
+        }
+
+        .bank-card:hover {
+            transform: translateY(-15px);
+            box-shadow: 0 35px 70px rgba(198, 40, 40, 0.15);
+        }
+
+        .bank-icon {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            color: var(--white);
+            font-size: 2rem;
+        }
+
+        .bank-card h3 {
+            color: var(--primary);
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .bank-details {
+            background: var(--light);
+            padding: 20px;
+            border-radius: 10px;
+            margin-top: 20px;
+        }
+
+        .bank-details p {
+            margin-bottom: 10px;
+            color: var(--dark);
+        }
+
+        .bank-details strong {
+            color: var(--primary);
+        }
+
+        .copy-btn {
+            background: var(--white);
+            border: 2px solid var(--primary);
+            color: var(--primary);
+            padding: 10px 20px;
+            border-radius: 5px;
+            margin-top: 15px;
+            cursor: pointer;
+            transition: var(--transition);
+            font-weight: 600;
+        }
+
+        .copy-btn:hover {
+            background: var(--primary);
+            color: var(--white);
+        }
+
+        /* ===== TOAST NOTIFICATION ===== */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: var(--white);
+            border-radius: 10px;
+            padding: 15px 25px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            z-index: 2000;
+            transform: translateX(400px);
+            transition: transform 0.3s ease;
+            border-left: 4px solid;
+            max-width: 350px;
+        }
+
+        .toast.show {
+            transform: translateX(0);
+        }
+
+        .toast.success {
+            border-left-color: #4caf50;
+        }
+
+        .toast i {
+            font-size: 1.5rem;
+        }
+
+        .toast.success i {
+            color: #4caf50;
+        }
+
+        .toast-content {
+            flex: 1;
+        }
+
+        .toast-title {
+            font-weight: 700;
+            margin-bottom: 5px;
+        }
+
+        .toast-message {
+            color: var(--gray);
+            font-size: 0.9rem;
+        }
+
+        /* ===== FOOTER ===== */
+        footer {
+            background: linear-gradient(135deg, #1a0f0a, #2c1810);
+            color: var(--white);
+            padding: 80px 0 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        footer::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 5px;
+            background: linear-gradient(90deg, var(--secondary), var(--primary), var(--secondary));
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-column h3 {
+            color: var(--white);
+            font-size: 1.3rem;
+            margin-bottom: 25px;
+            position: relative;
+            padding-bottom: 10px;
+            font-weight: 700;
+        }
+
+        .footer-column h3::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 50px;
+            height: 3px;
+            background: var(--secondary);
+            border-radius: 2px;
+        }
+
+        .footer-column p {
+            color: rgba(255, 255, 255, 0.85);
+            margin-bottom: 15px;
+            line-height: 1.8;
+            font-size: 0.9rem;
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .footer-column p i {
+            color: var(--secondary);
+            margin-top: 3px;
+        }
+
+        .footer-column ul {
+            list-style: none;
+        }
+
+        .footer-column ul li {
+            margin-bottom: 12px;
+        }
+
+        .footer-column ul li a {
+            color: rgba(255, 255, 255, 0.85);
+            transition: var(--transition);
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            font-weight: 500;
+        }
+
+        .footer-column ul li a:hover {
+            color: var(--secondary);
+            padding-left: 5px;
+            transform: translateX(5px);
+        }
+
+        .social-links {
+            display: flex;
+            gap: 15px;
+            margin-top: 20px;
+        }
+
+        .social-links a {
+            width: 40px;
+            height: 40px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            transition: var(--transition);
+            text-decoration: none;
+            font-size: 1.2rem;
+        }
+
+        .social-links a:hover {
+            background: var(--secondary);
+            transform: translateY(-5px) rotate(10deg);
+            box-shadow: 0 10px 20px rgba(255, 82, 82, 0.3);
+        }
+
+        .copyright {
+            text-align: center;
+            padding-top: 40px;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+            font-size: 0.9rem;
+        }
+
+        .footer-motto {
+            font-style: italic;
+            margin-top: 10px;
+            color: rgba(255, 255, 255, 0.5);
+            font-size: 0.85rem;
+        }
+
+        /* ===== RESPONSIVE ===== */
+        @media (max-width: 1200px) {
+            .footer-content {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 992px) {
+            .donation-grid {
+                grid-template-columns: 1fr;
+                gap: 40px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .mobile-menu {
+                display: block;
+            }
+            
+            nav ul {
+                position: fixed;
+                top: 70px;
+                left: -100%;
+                width: 100%;
+                height: calc(100vh - 70px);
+                background: var(--white);
+                flex-direction: column;
+                align-items: center;
+                justify-content: flex-start;
+                padding-top: 50px;
+                transition: left 0.4s ease;
+                gap: 30px;
+                z-index: 999;
+            }
+            
+            nav ul.active {
+                left: 0;
+            }
+            
+            .header-container {
+                padding: 10px 0;
+                min-height: 70px;
+            }
+            
+            .logo-text h1 {
+                font-size: 1.2rem;
+            }
+            
+            .logo-text p {
+                font-size: 0.65rem;
+            }
+            
+            .logo-image {
+                height: 45px;
+            }
+            
+            .page-banner {
+                padding: 140px 0 80px;
+                margin-top: 70px;
+            }
+            
+            .page-banner h1 {
+                font-size: 2.5rem;
+            }
+            
+            .page-banner p {
+                font-size: 1rem;
+            }
+            
+            .donation-header h2 {
+                font-size: 2rem;
+            }
+            
+            .impact-card, .info-card {
+                padding: 30px;
+            }
+            
+            .footer-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .footer-column h3::after {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+            
+            .footer-column p {
+                justify-content: center;
+            }
+            
+            .footer-column ul li a {
+                justify-content: center;
+            }
+            
+            .social-links {
+                justify-content: center;
+            }
+            
+            .toast {
+                bottom: 20px;
+                right: 20px;
+                left: 20px;
+                transform: translateY(100px);
+            }
+            
+            .toast.show {
+                transform: translateY(0);
+            }
+        }
+
+        @media (max-width: 576px) {
+            .page-banner {
+                padding: 120px 0 60px;
+            }
+            
+            .page-banner h1 {
+                font-size: 2rem;
+            }
+            
+            .donation-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .impact-card h3, .info-card h3 {
+                font-size: 1.5rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Scroll Progress Bar -->
+    <div class="scroll-progress"></div>
+
+    <!-- Header -->
+    <header>
+        <div class="container header-container">
+            <a href="index.html" class="logo">
+                <img src="Logo's/Urban Ministry.jpeg" alt="Urban Ministry Logo" class="logo-image">
+                <div class="logo-text">
+                    <h1>Urban Ministry Jos</h1>
+                    <p>Helping People to Help Themselves</p>
+                </div>
+            </a>
+            <button class="mobile-menu">
+                <i class="fas fa-bars"></i>
+            </button>
+            <nav>
+                <ul>
+                    <li><a href="index.html">Home</a></li>
+                    <li><a href="about.html">About</a></li>
+                    <li><a href="programs.html">Programs</a></li>
+                    <li><a href="impact.html">Impact</a></li>
+                    <li><a href="contact.html">Contact</a></li>
+                    <li><a href="donate.html" class="active btn btn-primary">Donate Now</a></li>
+                </ul>
+            </nav>
+        </div>
+    </header>
+
+    <!-- Page Banner -->
+    <section class="page-banner">
+        <div class="container">
+            <h1>Make a Donation</h1>
+            <p>Your generosity transforms lives and communities in Plateau State</p>
+        </div>
+    </section>
+
+    <!-- Donation Section -->
+    <section class="donation-section">
+        <div class="container">
+            <div class="donation-header">
+                <h2>Support Our Mission</h2>
+                <p>Every donation, no matter the size, helps us continue our life-changing programs across Plateau State.</p>
+            </div>
+
+            <div class="donation-grid">
+                <!-- Donation Info Card -->
+                <div class="donation-info-container">
+                    <div class="info-card">
+                        <div class="info-icon">
+                            <i class="fas fa-hand-holding-heart"></i>
+                        </div>
+                        <h3>How to Donate</h3>
+                        <p>You can support our work by making a direct bank transfer to any of our accounts below. Please use your name or "Donation" as the reference.</p>
+                        <p>After making your transfer, please email us your details so we can send you a receipt and keep you updated on our work.</p>
+                        <a href="#bankDetails" class="btn btn-primary donate-bank-btn">
+                            <i class="fas fa-university"></i> View Bank Details
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Impact Card -->
+                <div class="impact-container">
+                    <div class="impact-card">
+                        <div class="impact-icon">
+                            <i class="fas fa-chart-line"></i>
+                        </div>
+                        <h3>Your Impact</h3>
+                        
+                        <div class="impact-stats">
+                            <div class="impact-stat">
+                                <span class="number">₦5,000</span>
+                                <span class="label">can provide</span>
+                            </div>
+                        </div>
+
+                        <ul class="impact-list">
+                            <li><i class="fas fa-check-circle"></i> 5 families with food for a week</li>
+                            <li><i class="fas fa-check-circle"></i> 2 children with school supplies</li>
+                            <li><i class="fas fa-check-circle"></i> 1 trauma healing session</li>
+                        </ul>
+
+                        <div class="testimonial">
+                            <i class="fas fa-quote-left"></i>
+                            <p>"Your donation changed my life. I can now provide for my family and send my children to school."</p>
+                            <div class="author">- Amina, Jos North</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Bank Transfer Details -->
+    <section class="bank-section" id="bankDetails">
+        <div class="container">
+            <div class="donation-header">
+                <h2>Bank Transfer Details</h2>
+                <p>Make a direct transfer to any of our accounts below</p>
+            </div>
+                <div class="bank-card">
+                    <div class="bank-icon">
+                        <i class="fas fa-university"></i>
+                    </div>
+                    <h3>Zenith Bank</h3>
+                    <div class="bank-details">
+                        <p><strong>Account Name:</strong> Urban Ministry Jos</p>
+                        <p><strong>Account Number:</strong> 1010382409</p>
+                        <!-- <p><strong>Sort Code:</strong> 057</p> -->
+                    </div>
+                    <button class="copy-btn" onclick="copyToClipboard('1010382409')">
+                        <i class="fas fa-copy"></i> Copy Account Number
+                    </button>
+                </div>
+            </div>
+
+            <div style="text-align: center; margin-top: 50px;">
+                <p style="color: var(--gray); margin-bottom: 20px;">After making your transfer, please contact us with your details:</p>
+                <div style="display: flex; justify-content: center; gap: 20px; flex-wrap: wrap;">
+                    <a href="tel:+2348034535263" class="btn btn-outline">
+                        <i class="fas fa-phone"></i> Call Us
+                    </a>
+                    <a href="mailto:urbanministry@gmail.com" class="btn btn-outline">
+                        <i class="fas fa-envelope"></i> Email Us
+                    </a>
+                    <!-- <a href="https://wa.me/2348034535263" class="btn btn-outline">
+                        <i class="fab fa-whatsapp"></i> WhatsApp
+                    </a> -->
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-column">
+                    <h3>Urban Ministry Jos</h3>
+                    <p><i class="fas fa-map-marker-alt"></i> Katon Rikkos, Along Lamingo Road, Behind Langfield Motel, Jos North LGA, Plateau State, Nigeria</p>
+                    <p><i class="fas fa-phone"></i> +2348034535263 / +2348039130385</p>
+                    <p><i class="fas fa-envelope"></i> urbanministry@gmail.com</p>
+                    <div class="social-links">
+                        <a href="#"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#"><i class="fab fa-twitter"></i></a>
+                        <a href="#"><i class="fab fa-instagram"></i></a>
+                        <a href="#"><i class="fab fa-youtube"></i></a>
+                        <a href="#"><i class="fab fa-linkedin-in"></i></a>
+                    </div>
+                </div>
+                <div class="footer-column">
+                    <h3>Quick Links</h3>
+                    <ul>
+                        <li><a href="index.html">Home</a></li>
+                        <li><a href="about.html">About Us</a></li>
+                        <li><a href="programs.html">Our Programs</a></li>
+                        <li><a href="impact.html">Our Impact</a></li>
+                        <li><a href="contact.html">Contact Us</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Get Involved</h3>
+                    <ul>
+                        <li><a href="volunteer.html">Volunteer</a></li>
+                        <li><a href="partners.html">Partnership</a></li>
+                        <li><a href="donate.html">Donate</a></li>
+                        <li><a href="events.html">Events</a></li>
+                        <li><a href="gallery.html">Gallery</a></li>
+                    </ul>
+                </div>
+                <div class="footer-column">
+                    <h3>Legal & Registration</h3>
+                    <p>Registered with Corporate Affairs Commission</p>
+                    <p><strong>RC Number:</strong> 11136</p>
+                    <p><strong>Since:</strong> 28th May 1998</p>
+                    <p>Non-Profit Organization</p>
+                    <p>Christian NGO</p>
+                </div>
+            </div>
+            <div class="copyright">
+                <p>&copy; 2023 Urban Ministry Jos. All Rights Reserved. | <em>Helping People to Help Themselves</em></p>
+                <p class="footer-motto">From Crisis to Wholeness: Restoring Dignity, Healing Trauma, and Building Livelihoods</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Toast Notification -->
+    <div class="toast" id="toast">
+        <i class="fas"></i>
+        <div class="toast-content">
+            <div class="toast-title"></div>
+            <div class="toast-message"></div>
+        </div>
+    </div>
+
+    <script>
+        // Mobile Menu Toggle
+        const mobileMenu = document.querySelector('.mobile-menu');
+        const navMenu = document.querySelector('nav ul');
+        
+        mobileMenu.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            const icon = this.querySelector('i');
+            icon.classList.toggle('fa-bars');
+            icon.classList.toggle('fa-times');
+        });
+
+        // Close mobile menu when clicking links
+        document.querySelectorAll('nav ul li a').forEach(link => {
+            link.addEventListener('click', function() {
+                navMenu.classList.remove('active');
+                const icon = mobileMenu.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+
+        // Scroll Progress Bar
+        window.addEventListener('scroll', function() {
+            const scrollProgress = document.querySelector('.scroll-progress');
+            const windowHeight = document.documentElement.scrollHeight - document.documentElement.clientHeight;
+            const scrolled = (window.scrollY / windowHeight) * 100;
+            scrollProgress.style.width = scrolled + '%';
+
+            // Header scroll effect
+            const header = document.querySelector('header');
+            if(window.scrollY > 100) {
+                header.style.boxShadow = '0 5px 30px rgba(198, 40, 40, 0.15)';
+                header.style.background = 'rgba(255, 255, 255, 0.98)';
+            } else {
+                header.style.boxShadow = '0 2px 20px rgba(198, 40, 40, 0.1)';
+                header.style.background = 'white';
+            }
+        });
+
+        // Toast Notification Function
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            const icon = toast.querySelector('i');
+            const titleEl = toast.querySelector('.toast-title');
+            const messageEl = toast.querySelector('.toast-message');
+            
+            toast.classList.remove('success', 'show');
+            
+            icon.className = 'fas fa-check-circle';
+            toast.classList.add('success');
+            titleEl.textContent = 'Copied!';
+            messageEl.textContent = message;
+            toast.classList.add('show');
+            
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+
+        // Copy to Clipboard
+        function copyToClipboard(text) {
+            navigator.clipboard.writeText(text).then(function() {
+                showToast('Account number ' + text + ' copied to clipboard!');
+            });
+        }
+
+        // Smooth scroll for anchor links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function(e) {
+                e.preventDefault();
+                const targetId = this.getAttribute('href');
+                if(targetId === '#') return;
+                const targetElement = document.querySelector(targetId);
+                if(targetElement) {
+                    window.scrollTo({
+                        top: targetElement.offsetTop - 80,
+                        behavior: 'smooth'
+                    });
+                }
+            });
+        });
+
+        // Intersection Observer for animations
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.style.opacity = '1';
+                    entry.target.style.transform = 'translateY(0)';
+                }
+            });
+        }, { threshold: 0.3 });
+
+        // Observe animated elements
+        document.querySelectorAll('.info-card, .impact-card, .bank-card').forEach(el => {
+            el.style.opacity = '0';
+            el.style.transform = 'translateY(50px)';
+            el.style.transition = 'all 0.8s ease';
+            observer.observe(el);
+        });
+    </script>
+</body>
+</html>
