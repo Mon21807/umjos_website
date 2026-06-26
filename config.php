@@ -15,9 +15,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // ===== DATABASE CONFIG - Change these if needed =====
 $host     = 'localhost';
-$dbname   = 'urbanministry_db';
-$username = 'root';
-$password = ''; // XAMPP default is empty password
+$dbname   = 'urbanmin_urbanministry';
+$username = 'urbanmin_urbanministry';
+$password = 'urbanmin_urbanministry';
 
 try {
     $pdo = new PDO(
