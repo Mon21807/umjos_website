@@ -15,7 +15,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'OPTIONS') {
 
 // ===== DATABASE CONFIG - Change these if needed =====
 $host     = 'localhost';
-$dbname   = 'urban_ministry';
+$dbname   = 'urbanministry_db';
 $username = 'root';
 $password = ''; // XAMPP default is empty password
 
